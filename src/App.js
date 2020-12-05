@@ -15,7 +15,7 @@ class App extends Component {
     axios({
       url: 'https://www.googleapis.com/books/v1/volumes',
       method: 'GET',
-      responseType: 'jsonp',
+      responseType: 'json',
       params: {
         q: 'harrypotter',
         key: 'AIzaSyCl7_ThiCPhoMTkiOf6PNAzfAK-b-pAlXA',
@@ -27,7 +27,7 @@ class App extends Component {
 
   render() { 
       return (
-          <h1>Hi</h1>
+        <div>Hi</div>
       )
   }
 }

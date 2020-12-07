@@ -1,9 +1,11 @@
 import './App.css';
 import axios from 'axios';
+// import firebase from './firebase.js';
 import { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import SearchResults from './SearchResults';
 import LandingPage from './LandingPage';
+import HeaderNav from './HeaderNav';
 
 class App extends Component {
   constructor() {
@@ -15,7 +17,7 @@ class App extends Component {
     }
   }
 
-  APICall = (input) => {
+  apiCall = (input) => {
     axios({
       url: 'https://www.googleapis.com/books/v1/volumes',
       method: 'GET',
@@ -34,13 +36,13 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.APICall('1');
+    this.apiCall('1');
   }
 
   // When the component updates with a newInput from the user, make a new API call then set this.newInput to 'false' to stop the infinite componentDidUpdate-setState loop;
   componentDidUpdate() {
     if (this.newInput) {
-      this.APICall(this.state.userInput);
+      this.apiCall(this.state.userInput);
       this.newInput = false;
     }
   }
@@ -62,16 +64,12 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <header>
-            <h1>Doki Doki Literature Club</h1>
-          </header>
-          <form onSubmit={this.handleSubmit}>
-            <label htmlFor="searchBook">Search: </label>
-            <input type='text' id='searchbook' name='searchbook' onChange={this.updateUserInput}></input>
-            <Link to={`/${this.state.userInput}`}>
-              <button>submit</button>
-            </Link>
-          </form>
+          <HeaderNav 
+          submit={((e)=> {
+            this.handleSubmit(e);
+          })}
+          inputChange={this.updateUserInput}
+          userSearch={this.state.userInput}/>
           <Route exact path="/" component={LandingPage}/>
           <Route path="/:search" component={SearchResults}/>
         </div>

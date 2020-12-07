@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import axios from 'axios';
 import noCover from './assets/noCover.jpg';
+import firebase from './firebase.js';
 
 class SearchResults extends Component {
     constructor() {

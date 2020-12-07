@@ -26,6 +26,7 @@ class App extends Component {
       }
     }).then ((results) => {
       const bookResults = results.data.items;
+      console.log(bookResults);
       this.setState({
         books: bookResults
       })

@@ -12,14 +12,14 @@ class SearchResults extends Component {
         }
     }
 
-    APICall = (input) => {
+    apiCall = (input) => {
         axios({
             url: 'https://www.googleapis.com/books/v1/volumes',
             method: 'GET',
             responseType: 'json',
             params: {
                 q: input,
-                maxResults: 1
+                maxResults: 10
             }
         }).then((results) => {
             const bookResults = results.data.items;
@@ -33,14 +33,20 @@ class SearchResults extends Component {
 
     componentDidMount() {
         this.newSearch = this.props.match.params.search;
-        this.APICall(this.props.match.params.search);
+        this.apiCall(this.props.match.params.search);
     }
 
     componentDidUpdate() {
         if (this.newSearch !== this.props.match.params.search){
             this.newSearch = this.props.match.params.search;
-            this.APICall(this.newSearch);
+            this.apiCall(this.newSearch);
         }
+    }
+
+    handleClick = (bookObject) => {
+        const dbRef = firebase.database().ref(2)
+        dbRef.push(bookObject)
+        // dbRef.child()
     }
 
     // Function to check if an info is missing. If so, display the corresponding message
@@ -77,6 +83,7 @@ class SearchResults extends Component {
         }
     }
 
+
     // If the cover image is missing, display no-cover image
     handleMissingCoverImage = (info) => {
         if (info.imageLinks) {
@@ -85,6 +92,20 @@ class SearchResults extends Component {
             return noCover;
         }
     }
+
+    setUpDataBase() {
+        // Make reference to database
+        const dbRef = firebase.database().ref();
+        // Get data from database
+        let firebaseDataObj;
+        dbRef.on('value', (data) => {
+            firebaseDataObj = data.val();
+        });
+    }
+
+    // createBookObject = () => {
+    //     return 
+    // }
 
     // Render relevant information on screen
     renderInformation = (book) => {
@@ -117,6 +138,7 @@ class SearchResults extends Component {
                 }
                 <h4>{description}</h4>
                 <img src={bookImg} alt={`Book cover for ${title}`} />
+                <button onClick={() => {this.handleClick(book)}}>Add to my bookshelf</button>
             </div>
         );
     }

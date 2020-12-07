@@ -17,35 +17,35 @@ class App extends Component {
     }
   }
 
-  apiCall = (input) => {
-    axios({
-      url: 'https://www.googleapis.com/books/v1/volumes',
-      method: 'GET',
-      responseType: 'json',
-      params: {
-        q: input,
-        maxResults: 5
-      }
-    }).then((results) => {
-      const bookResults = results.data.items;
-      console.log(bookResults);
-      this.setState({
-        suggestions: bookResults
-      });
-    }).catch((error) => error);
-  }
+  // apiCall = (input) => {
+  //   axios({
+  //     url: 'https://www.googleapis.com/books/v1/volumes',
+  //     method: 'GET',
+  //     responseType: 'json',
+  //     params: {
+  //       q: input,
+  //       maxResults: 5
+  //     }
+  //   }).then((results) => {
+  //     const bookResults = results.data.items;
+  //     console.log(bookResults);
+  //     this.setState({
+  //       suggestions: bookResults
+  //     });
+  //   }).catch((error) => error);
+  // }
 
-  componentDidMount() {
-    this.apiCall('1');
-  }
+  // componentDidMount() {
+  //   this.apiCall('1');
+  // }
 
   // When the component updates with a newInput from the user, make a new API call then set this.newInput to 'false' to stop the infinite componentDidUpdate-setState loop;
-  componentDidUpdate() {
-    if (this.newInput) {
-      this.apiCall(this.state.userInput);
-      this.newInput = false;
-    }
-  }
+  // componentDidUpdate() {
+  //   if (this.newInput) {
+  //     this.apiCall(this.state.userInput);
+  //     this.newInput = false;
+  //   }
+  // }
 
   // Update user's input; when the user types a new character, set this.newInput to 'true'
   updateUserInput = (e) => {
@@ -64,14 +64,14 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <HeaderNav 
-          submit={((e)=> {
-            this.handleSubmit(e);
-          })}
-          inputChange={this.updateUserInput}
-          userSearch={this.state.userInput}/>
-          <Route exact path="/" component={LandingPage}/>
-          <Route path="/:search" component={SearchResults}/>
+          <HeaderNav
+            submit={((e) => {
+              this.handleSubmit(e);
+            })}
+            inputChange={this.updateUserInput}
+            userSearch={this.state.userInput} />
+          <Route exact path="/" component={LandingPage} />
+          <Route path="/:search" component={SearchResults} />
         </div>
       </Router>
     );

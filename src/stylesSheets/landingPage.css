@@ -1,5 +1,7 @@
 .landingPage {
   background-image: url(../assets/robert-anasch-McX3XuJRsUM-unsplash.jpg);
+  background-blend-mode: overlay;
+  background-color: rgba(0, 0, 0, 0.6);
   height: 80vh;
   width: 100%;
   background-size: cover;
@@ -8,6 +10,10 @@
   color: #fff;
   display: flex;
   align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  text-align: center;
+  
 }
 
 

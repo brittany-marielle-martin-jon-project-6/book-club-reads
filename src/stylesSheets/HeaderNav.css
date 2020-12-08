@@ -1,0 +1,60 @@
+header {
+  background-color: #fff;
+}
+
+.headerNav {
+  display: flex;
+  list-style: none;
+  text-transform: uppercase;
+}
+
+.headerNav li {
+  padding: 10px;
+}
+
+.navLinks {
+  text-decoration: none;
+}
+
+.logo {
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: 3rem;
+  color: #1b2456;
+}
+
+.flexContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 90%;
+}
+
+.searchButton {
+  background-color: #1b2456;
+  color: #fff;
+  border: 1px solid #1b2456;
+  padding: 5px;
+  height: 30px;
+  width: 30px;
+}
+
+button:hover,
+button:focus {
+  background-color: #fff;
+  color: #1b2456;
+}
+
+.searchBook {
+  width: 300px;
+  height: 30px;
+  padding-left: 10px;
+}

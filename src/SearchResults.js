@@ -106,9 +106,9 @@ class SearchResults extends Component {
     });
   }
 
-  // createBookObject = () => {
-  //     return 
-  // }
+  createBookObject = () => {
+    return
+  }
 
   // Render relevant information on screen
   renderInformation = (book) => {
@@ -165,5 +165,6 @@ class SearchResults extends Component {
     )
   }
 }
+
 
 export default SearchResults;

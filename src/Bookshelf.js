@@ -27,17 +27,9 @@ class Bookshelf extends Component {
         });
     }
 
-    componentDidUpdate() {
-
-    }
-
     handleClick = (change) => {
         let newIndex = this.state.indexOfDisplayedBook + change;
-        if (newIndex < 0) {
-            newIndex = this.state.savedBooks.length - 1;
-        } else if (newIndex > this.state.savedBooks.length - 1) {
-            newIndex = 0;
-        }
+        newIndex = this.indexLoop(newIndex);
         this.setState({
             indexOfDisplayedBook: newIndex
         })
@@ -52,15 +44,73 @@ class Bookshelf extends Component {
         }
     }
 
+    indexLoop = (index) => {
+        if (index < 0) {
+            index = this.state.savedBooks.length - 1
+        } else if (
+            index > this.state.savedBooks.length - 1
+        ) {
+            index = 0;
+        }
+        return index;
+    }
     // display this.state.savedBooks.slice(indexOfDisplayedBook, indexOfDisplayedBook + 1)
 
     renderBookDisplay = () => {
-        const book = this.state.savedBooks[this.state.indexOfDisplayedBook];
-        const bookImg = this.handleMissingCoverImage(book[0]) // add stock no image available 
-        console.log(book[0][0])
-        console.log(book)
+        // const book = this.state.savedBooks.slice(this.state.indexOfDisplayedBook, this.state.indexOfDisplayedBook + 2);
+
+        let leftEndBookIndex = this.state.indexOfDisplayedBook - 2;
+        leftEndBookIndex = this.indexLoop(leftEndBookIndex);
+
+        const leftEndBook = this.state.savedBooks[leftEndBookIndex];
+
+        let leftBookIndex = this.state.indexOfDisplayedBook -1;
+        leftBookIndex = this.indexLoop(leftBookIndex);
+
+        const leftBook = this.state.savedBooks[leftBookIndex];
+
+        let rightBookIndex = this.state.indexOfDisplayedBook + 1;
+        rightBookIndex = this.indexLoop(rightBookIndex);
+        
+        const rightBook = this.state.savedBooks[rightBookIndex];
+
+        let rightEndBookIndex = this.state.indexOfDisplayedBook + 2;
+        rightEndBookIndex = this.indexLoop(rightEndBookIndex);
+
+        const rightEndBook = this.state.savedBooks[rightEndBookIndex];
+
+        const displayedBook = this.state.savedBooks[this.state.indexOfDisplayedBook];
+
+        const bookImg = this.handleMissingCoverImage(displayedBook[0]) // add stock no image available 
+        const leftEndBookImg = this.handleMissingCoverImage(leftEndBook[0]);
+        const leftBookImg = this.handleMissingCoverImage(leftBook[0]);
+        const rightBookImg = this.handleMissingCoverImage(rightBook[0]);
+        const rightEndBookImg = this.handleMissingCoverImage(rightEndBook[0]);
         return(
-            <img src={bookImg} alt="dfshu"/>
+            <div className="bookShelfDisplay">
+                <div className="shelvedBooks">
+                    <img src={leftEndBookImg} alt="dfdf" />
+                </div>
+
+                <div className="shelvedBooks">
+                    <img src={leftBookImg} alt="dfdf" />
+                </div>
+
+                <div className="displayedBook">
+                    <img src={bookImg} alt="dfdf" />
+                </div>
+
+                <div className="shelvedBooks">
+                    <img src={rightBookImg} alt="dfdf" />
+                </div>
+
+                <div className="shelvedBooks">
+                    <img src={rightEndBookImg} alt="dfdf" />
+                </div>
+        
+            </div>
+
+            
         )
     }
 
@@ -73,13 +123,13 @@ class Bookshelf extends Component {
     render() {
         return(
             <div className="bookshelf">
-                <button onClick={() => this.handleClick(-1)}>Previous</button>
+                <i class="fas fa-chevron-left" onClick={() => this.handleClick(-1)}></i>
                 {
                     this.state.savedBooks.length
                         ? this.renderBookDisplay()
                         : this.renderErrorMessage()
                 }
-                <button onClick={() => this.handleClick(1)}>Next</button>
+                <i class="fas fa-chevron-right" onClick={() => this.handleClick(1)}></i>
             </div>
         )
     }

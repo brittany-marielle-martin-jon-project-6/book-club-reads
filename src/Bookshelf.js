@@ -59,8 +59,28 @@ class Bookshelf extends Component {
   renderBookDisplay = () => {
     // const book = this.state.savedBooks.slice(this.state.indexOfDisplayedBook, this.state.indexOfDisplayedBook + 2);
 
+<<<<<<< HEAD
     let leftEndBookIndex = this.state.indexOfDisplayedBook - 2;
     leftEndBookIndex = this.indexLoop(leftEndBookIndex);
+=======
+    indexLoop = (index) => {
+        if (index === -1) { 
+            index = this.state.savedBooks.length - 1
+        } else if (
+            index ===  -2
+        ){ index = this.state.savedBooks.length -2}
+        else if (
+            index === this.state.savedBooks.length 
+        ) {
+            index = 0;
+        } else if (
+            index === this.state.savedBooks.length + 1
+        ) {
+            index = 1
+        }
+        return index;
+    }
+>>>>>>> 9658d926cb491a4e803c4cff9c80a8d2a50d7823
 
     const leftEndBook = this.state.savedBooks[leftEndBookIndex];
 
@@ -87,6 +107,7 @@ class Bookshelf extends Component {
     const rightBookImg = this.handleMissingCoverImage(rightBook[0]);
     const rightEndBookImg = this.handleMissingCoverImage(rightEndBook[0]);
 
+<<<<<<< HEAD
     console.log('displayed', this.state.indexOfDisplayedBook)
     console.log('left end', leftEndBookIndex)
     console.log('left', leftBookIndex)
@@ -113,6 +134,45 @@ class Bookshelf extends Component {
         <div className="shelvedBooks">
           <img src={rightEndBookImg} alt="dfdf" />
         </div>
+=======
+        const bookImg = this.handleMissingCoverImage(displayedBook[0]) // add stock no image available 
+        const leftEndBookImg = this.handleMissingCoverImage(leftEndBook[0]);
+        const leftBookImg = this.handleMissingCoverImage(leftBook[0]);
+        const rightBookImg = this.handleMissingCoverImage(rightBook[0]);
+        const rightEndBookImg = this.handleMissingCoverImage(rightEndBook[0]);
+
+        console.log('displayed', this.state.indexOfDisplayedBook)
+        console.log('left end', leftEndBookIndex)
+        console.log('left', leftBookIndex)
+        console.log('right', rightBookIndex)
+        console.log('right end', rightEndBookIndex)
+        
+        return(
+            <div className="wooden-background">
+                <div className="bookShelfDisplay">
+                    <div className="shelvedBooks">
+                        <img src={leftEndBookImg} alt="dfdf" />
+                    </div>
+
+                    <div className="shelvedBooks">
+                        <img src={leftBookImg} alt="dfdf" />
+                    </div>
+
+                    <div className="displayedBook">
+                        <img src={bookImg} alt="dfdf" />
+                    </div>
+
+                    <div className="shelvedBooks">
+                        <img src={rightBookImg} alt="dfdf" />
+                    </div>
+
+                    <div className="shelvedBooks">
+                        <img src={rightEndBookImg} alt="dfdf" />
+                    </div>
+            
+                </div>
+            </div>
+>>>>>>> 9658d926cb491a4e803c4cff9c80a8d2a50d7823
 
       </div>
 

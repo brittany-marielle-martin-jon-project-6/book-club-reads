@@ -1,37 +1,54 @@
 .wooden-background {
-    background-image: url("../assets/steve-johnson-B2_zWEdpLlo-unsplash.jpg");
-    background-position: 90%;
-    background-repeat: no-repeat;
-    padding: 80px 0;
-    width: 100%;
+  background-image: url("../assets/steve-johnson-B2_zWEdpLlo-unsplash.jpg");
+  background-position: 90%;
+  background-repeat: no-repeat;
+  padding: 80px 0;
+  width: 100%;
 }
 
 .bookshelf {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-    padding: 50px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 50px 0;
 }
 
 .bookshelf i {
-    font-size: 5rem;
-    cursor: pointer;
-    color: #1b2456;
-    padding: 0 20px;
+  font-size: 5rem;
+  cursor: pointer;
+  color: #1b2456;
+  padding: 0 20px;
 }
 
 .bookShelfDisplay {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 100%;
-    background-color: #fff;
-    padding: 25px 0;
-    height: 300px;
-    min-height: 300px
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  background-color: #fff;
+  padding: 25px 0;
+  height: 300px;
+  min-height: 300px;
 }
 
 .shelvedBooks img {
-    width: 65%;
+  width: 65%;
+}
+
+.displayedBook {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.removeBook {
+  width: 100px;
+  background-color: #1b2456;
+  color: #fff;
+  border: 1px solid #1b2456;
+  border-radius: 20px;
+  padding: 5px;
+  margin-top: 20px;
+  text-transform: uppercase;
 }

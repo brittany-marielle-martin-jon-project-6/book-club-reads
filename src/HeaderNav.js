@@ -38,7 +38,7 @@ class HeaderNav extends Component {
   render() {
     return (
 
-      
+
       <header>
         <div className="flexContainer container">
           <Link to="/" className="logo"><h1><i className="fas fa-book-open"></i>Book Club Reads<i className="fas fa-book-open"></i></h1></Link>
@@ -46,7 +46,7 @@ class HeaderNav extends Component {
             <label htmlFor="searchBook">Search </label>
             <input type='text' id='searchbook' name='searchbook' className='searchBook' placeholder='title, author, genre' onChange={this.updateUserInput}></input>
             <Link to={`/search/${this.state.userInput}`}>
-              <button><i class="fas fa-search"></i></button>
+              <button className='searchButton'><i className="fas fa-search"></i></button>
             </Link>
           </form>
           {

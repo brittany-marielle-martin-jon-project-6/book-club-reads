@@ -27,17 +27,9 @@ class Bookshelf extends Component {
         });
     }
 
-    componentDidUpdate() {
-
-    }
-
     handleClick = (change) => {
         let newIndex = this.state.indexOfDisplayedBook + change;
-        if (newIndex < 0) {
-            newIndex = this.state.savedBooks.length - 1;
-        } else if (newIndex > this.state.savedBooks.length - 1) {
-            newIndex = 0;
-        }
+        newIndex = this.indexLoop(newIndex);
         this.setState({
             indexOfDisplayedBook: newIndex
         })
@@ -52,15 +44,42 @@ class Bookshelf extends Component {
         }
     }
 
+    indexLoop = (index) => {
+        if (index < 0) {
+            index = this.state.savedBooks.length - 1
+        } else if (
+            index > this.state.savedBooks.length - 1
+        ) {
+            index = 0;
+        }
+        return index;
+    }
     // display this.state.savedBooks.slice(indexOfDisplayedBook, indexOfDisplayedBook + 1)
 
     renderBookDisplay = () => {
-        const book = this.state.savedBooks[this.state.indexOfDisplayedBook];
-        const bookImg = this.handleMissingCoverImage(book[0]) // add stock no image available 
-        console.log(book[0][0])
-        console.log(book)
+        // const book = this.state.savedBooks.slice(this.state.indexOfDisplayedBook, this.state.indexOfDisplayedBook + 2);
+
+        let leftBookIndex = this.state.indexOfDisplayedBook -1;
+        leftBookIndex = this.indexLoop(leftBookIndex);
+
+        const leftBook = this.state.savedBooks[leftBookIndex];
+
+        let rightBookIndex = this.state.indexOfDisplayedBook + 1;
+        rightBookIndex = this.indexLoop(rightBookIndex);
+
+        const rightBook = this.state.savedBooks[rightBookIndex];
+        const displayedBook = this.state.savedBooks[this.state.indexOfDisplayedBook];
+        const bookImg = this.handleMissingCoverImage(displayedBook[0]) // add stock no image available 
+        const leftBookImg = this.handleMissingCoverImage(leftBook[0]);
+        const rightBookImg = this.handleMissingCoverImage(rightBook[0]);
         return(
-            <img src={bookImg} alt="dfshu"/>
+            <div className="bookShelfDisplay">
+                <img src={leftBookImg} alt="dfdf"/>
+                <img src={bookImg} alt="dfshu" />
+                <img src={rightBookImg} alt="asdf"/>
+            </div>
+
+            
         )
     }
 

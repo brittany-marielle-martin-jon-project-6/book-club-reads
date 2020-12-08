@@ -1,0 +1,24 @@
+.bookshelf {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #c8e0fb;
+    padding: 50px 0;
+}
+
+.bookshelf i {
+    font-size: 5rem;
+    cursor: pointer;
+    color: #5c67ff;
+}
+
+.bookShelfDisplay {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 70vw;
+}
+
+.shelvedBooks img {
+    width: 65%;
+}

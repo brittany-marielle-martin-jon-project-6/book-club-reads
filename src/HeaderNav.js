@@ -27,10 +27,10 @@ class HeaderNav extends Component {
   renderNav = () => {
     return (
       <nav>
-        <ul>
-          <li><Link to="/mybookshelf">My Bookshelf</Link></li>
-          <li><Link to="/">Browse</Link></li>
-          <li><Link to="/connect">Connect</Link></li>
+        <ul className="headerNav">
+          <li><Link to="/" className="navLinks">Browse</Link></li>
+          <li><Link to="/connect" className="navLinks">Connect</Link></li>
+          <li><Link to="/mybookshelf" className="navLinks">My Bookshelf</Link></li>
         </ul>
       </nav>
     )
@@ -38,18 +38,21 @@ class HeaderNav extends Component {
   render() {
     return (
 
+      
       <header>
-        <Link to="/"><h1><i className="fas fa-book-open"></i>Doki Doki Literature Club<i className="fas fa-book-open"></i></h1></Link>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="searchBook">Search: </label>
-          <input type='text' id='searchbook' name='searchbook' onChange={this.updateUserInput}></input>
-          <Link to={`/search/${this.state.userInput}`}>
-            <button>submit</button>
-          </Link>
-        </form>
-        {
-          this.renderNav()
-        }
+        <div className="flexContainer container">
+          <Link to="/" className="logo"><h1><i className="fas fa-book-open"></i>Book Club Reads<i className="fas fa-book-open"></i></h1></Link>
+          <form onSubmit={this.handleSubmit}>
+            <label htmlFor="searchBook">Search </label>
+            <input type='text' id='searchbook' name='searchbook' className='searchBook' placeholder='title, author, genre' onChange={this.updateUserInput}></input>
+            <Link to={`/search/${this.state.userInput}`}>
+              <button><i class="fas fa-search"></i></button>
+            </Link>
+          </form>
+          {
+            this.renderNav()
+          }
+        </div>
       </header>
     )
   }

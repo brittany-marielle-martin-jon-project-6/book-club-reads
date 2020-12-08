@@ -1,8 +1,8 @@
 import './App.css';
-import axios from 'axios';
+// import axios from 'axios';
 // import firebase from './firebase.js';
 import { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import SearchResults from './SearchResults';
 import LandingPage from './LandingPage';
 import HeaderNav from './HeaderNav';
@@ -35,14 +35,14 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <HeaderNav 
-          submit={((e)=> {
-            this.handleSubmit(e);
-          })}
-          inputChange={this.updateUserInput}
-          userSearch={this.state.userInput}/>
-          <Route exact path="/" component={LandingPage}/>
-          <Route path="/search/:search" component={SearchResults}/>
+          <HeaderNav
+            submit={((e) => {
+              this.handleSubmit(e);
+            })}
+            inputChange={this.updateUserInput}
+            userSearch={this.state.userInput} />
+          <Route exact path="/" component={LandingPage} />
+          <Route path="/search/:search" component={SearchResults} />
           <Route path="/mybookshelf" component={Bookshelf} />
         </div>
       </Router>

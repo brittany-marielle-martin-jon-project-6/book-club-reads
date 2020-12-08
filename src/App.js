@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import SearchResults from './SearchResults';
 import LandingPage from './LandingPage';
 import HeaderNav from './HeaderNav';
+import Bookshelf from './Bookshelf';
 
 class App extends Component {
   constructor() {
@@ -71,6 +72,7 @@ class App extends Component {
           userSearch={this.state.userInput}/>
           <Route exact path="/" component={LandingPage}/>
           <Route path="/:search" component={SearchResults}/>
+          <Route path="/mybookshelf" component={Bookshelf} />
         </div>
       </Router>
     );

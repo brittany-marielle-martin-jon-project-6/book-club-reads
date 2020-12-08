@@ -44,8 +44,8 @@ class SearchResults extends Component {
     }
 
     handleClick = (bookObject) => {
-        const dbRef = firebase.database().ref(2)
-        dbRef.push(bookObject)
+        const dbRef = firebase.database().ref();
+        dbRef.push(bookObject);
         // dbRef.child()
     }
 

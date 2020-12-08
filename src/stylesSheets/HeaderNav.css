@@ -6,6 +6,8 @@ header {
   display: flex;
   list-style: none;
   text-transform: uppercase;
+  height: 15vh;
+  align-items: center;
 }
 
 .headerNav li {

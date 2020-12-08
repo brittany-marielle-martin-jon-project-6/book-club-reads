@@ -7,6 +7,7 @@ import SearchResults from './SearchResults';
 import LandingPage from './LandingPage';
 import HeaderNav from './HeaderNav';
 import Bookshelf from './Bookshelf';
+import Footer from './Footer';
 
 class App extends Component {
   constructor() {
@@ -44,6 +45,7 @@ class App extends Component {
           <Route exact path="/" component={LandingPage} />
           <Route path="/search/:search" component={SearchResults} />
           <Route path="/mybookshelf" component={Bookshelf} />
+          <Footer />
         </div>
       </Router>
     );

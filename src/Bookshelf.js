@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, Fragment } from 'react';
 import firebase from './firebase.js';
 import noCover from './assets/noCover.jpg';
 
@@ -107,8 +107,9 @@ class Bookshelf extends Component {
     const firebaseIdOfDisplayedBook = this.state.savedBooks[this.state.indexOfDisplayedBook][2];
     console.log(firebaseIdOfDisplayedBook);
     return (
-      <div className="wooden-background">
+        <section className="carousel">
         <div className="bookShelfDisplay">
+        <i class="fas fa-chevron-left" onClick={() => this.handleClick(-1)}></i>
           <div className="shelvedBooks">
             <img src={leftEndBookImg} alt="dfdf" />
           </div>
@@ -119,7 +120,6 @@ class Bookshelf extends Component {
 
           <div className="displayedBook">
             <img src={bookImg} alt="dfdf" />
-            <button onClick={() => this.handleRemoveBook(firebaseIdOfDisplayedBook)} className='removeBook'>Remove</button>
           </div>
 
           <div className="shelvedBooks">
@@ -129,10 +129,10 @@ class Bookshelf extends Component {
           <div className="shelvedBooks">
             <img src={rightEndBookImg} alt="dfdf" />
           </div>
-
+            <i class="fas fa-chevron-right" onClick={() => this.handleClick(1)}></i>
         </div>
-
-      </div>
+            <button onClick={() => this.handleRemoveBook(firebaseIdOfDisplayedBook)} className='removeBook'>Remove</button>
+        </section>
     )
   }
 
@@ -145,14 +145,14 @@ class Bookshelf extends Component {
   render() {
     return (
       <div className="bookshelf">
-        <i class="fas fa-chevron-left" onClick={() => this.handleClick(-1)}></i>
+        
         {
           this.state.savedBooks.length
             ? this.renderBookDisplay()
             : this.renderErrorMessage()
         }
 
-        <i class="fas fa-chevron-right" onClick={() => this.handleClick(1)}></i>
+        
       </div>
     )
   }

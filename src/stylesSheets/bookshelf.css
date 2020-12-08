@@ -1,10 +1,28 @@
-.wooden-background {
-  background-image: url("../assets/steve-johnson-B2_zWEdpLlo-unsplash.jpg");
-  background-position: 90%;
+.bookshelf {
+  background-image: url("../assets/robert-anasch-McX3XuJRsUM-unsplash-blackandwhite.jpg");
+  background-size: cover;
   background-repeat: no-repeat;
-  padding: 80px 0;
   width: 100%;
+  height: 80vh;
+  /* padding: 80px 0; */
 }
+
+.carousel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* .bookshelf::before {
+  content: "";
+  position: absolute;
+  top: 15vh; left: 0;
+  width: 100%; height: 80vh;
+  background-image: url("../assets/robert-anasch-McX3XuJRsUM-unsplash.jpg");
+  filter: grayscale(100%);
+  background-size: cover;
+  background-repeat: no-repeat;
+} */
 
 .bookshelf {
   display: flex;
@@ -19,36 +37,40 @@
   cursor: pointer;
   color: #1b2456;
   padding: 0 20px;
+  z-index: 10;
 }
 
 .bookShelfDisplay {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  width: 100%;
-  background-color: #fff;
+  width: 100vw;
+  background-color: rgba(255, 255, 255, 0.595);
   padding: 25px 0;
-  height: 300px;
   min-height: 300px;
+  z-index: 10;
 }
 
 .shelvedBooks img {
   width: 65%;
 }
 
+.shelvedBooks,
 .displayedBook {
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 10;
 }
 
 .removeBook {
-  width: 100px;
+  width: 150px;
   background-color: #1b2456;
   color: #fff;
   border: 1px solid #1b2456;
   border-radius: 20px;
-  padding: 5px;
+  padding: 10px;
   margin-top: 20px;
   text-transform: uppercase;
+  font-size: 2rem;
 }

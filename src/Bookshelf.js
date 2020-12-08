@@ -54,10 +54,9 @@ class Bookshelf extends Component {
         }
         return index;
     }
-    // display this.state.savedBooks.slice(indexOfDisplayedBook, indexOfDisplayedBook + 1)
 
     renderBookDisplay = () => {
-        // const book = this.state.savedBooks.slice(this.state.indexOfDisplayedBook, this.state.indexOfDisplayedBook + 2);
+
 
         let leftBookIndex = this.state.indexOfDisplayedBook -1;
         leftBookIndex = this.indexLoop(leftBookIndex);

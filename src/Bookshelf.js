@@ -45,12 +45,14 @@ class Bookshelf extends Component {
     }
 
     indexLoop = (index) => {
-        if (index < 0) {
+        if (index === -1) {
             index = this.state.savedBooks.length - 1
-        } else if (
-            index > this.state.savedBooks.length - 1
-        ) {
+        } else if (index === -2) {
+            index = this.state.savedBooks.length - 2
+        } else if ( index === this.state.savedBooks.length ) {
             index = 0;
+        } else if ( index === this.state.savedBooks.length + 1) {
+            index = 1;
         }
         return index;
     }

@@ -121,7 +121,6 @@ class Bookshelf extends Component {
                     <div className="shelvedBooks">
                         <img src={rightEndBookImg} alt="dfdf" />
                     </div>
-            
                 </div>
             </div>
 

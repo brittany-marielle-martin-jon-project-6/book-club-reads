@@ -5,6 +5,7 @@ import SearchResults from './SearchResults';
 import LandingPage from './LandingPage';
 import HeaderNav from './HeaderNav';
 import Bookshelf from './Bookshelf';
+import BookDetails from './BookDetails';
 import Footer from './Footer';
 
 class App extends Component {
@@ -15,7 +16,8 @@ class App extends Component {
           <HeaderNav />
           <Route exact path="/" component={LandingPage} />
           <Route path="/search/:search" component={SearchResults} />
-          <Route path="/mybookshelf" component={Bookshelf} />
+          <Route exact path="/mybookshelf" component={Bookshelf} />
+          <Route path="/mybookshelf/:book" component={BookDetails} />
           <Footer />
         </div>
       </Router>

@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import firebase from './firebase.js';
+import { Link } from 'react-router-dom';
 import noCover from './assets/noCover.jpg';
 
 class Bookshelf extends Component {
@@ -49,15 +50,6 @@ class Bookshelf extends Component {
     }
   }
 
-  // If the cover image is missing, display no-cover image
-  handleMissingCoverImage = (info) => {
-    if (info.imageLinks) {
-      return info.imageLinks.thumbnail;
-    } else {
-      return noCover;
-    }
-  }
-
   // Create infinite loop for the carousel display  
   indexLoop = (index) => {
     if (index < 0) {
@@ -71,12 +63,30 @@ class Bookshelf extends Component {
   }
   
   // Function to display individual books  
-  displayBook = (key, className, bookImageUrl, altText) => {
-      return(
-          <div key={key} className={className}>
-              <img src={bookImageUrl} alt={altText} />
-          </div>
-      )
+  displayBook = (key, className, bookImageUrl, altText, bookTitle) => {
+      if (className === 'displayedBook') {
+          return (
+              <section key={key} className={className}>
+                  <div>
+                      <Link to={`/mybookshelf/${bookTitle}`}>
+                        <img src={bookImageUrl} alt={altText} />
+                      </Link>
+                  </div>
+                  <Link to={`/mybookshelf/${bookTitle}`}>
+                    <h3>{bookTitle}</h3>
+                  </Link>
+              </section>
+          )
+      } else {
+          return (
+              <section key={key} className={className}>
+                  <div>
+                      <img src={bookImageUrl} alt={altText} />
+                  </div>
+                  <h3>{bookTitle}</h3>
+              </section>
+          )
+      }
   }
   
   // Render the books on the screen
@@ -112,10 +122,11 @@ class Bookshelf extends Component {
                         } else {
                             className = 'shelvedBooks';
                         }
-                        const bookImageUrl = this.handleMissingCoverImage(book[0]);
-                        const altText = book[0].title;
+                        const bookImageUrl = book[0].bookImg;
+                        const altText = `Book cover for ${book[0].title}`;
                         const key = book[2];
-                        return this.displayBook(key, className, bookImageUrl, altText);
+                        const bookTitle = book[0].title;
+                        return this.displayBook(key, className, bookImageUrl, altText, bookTitle);
                     })
                 }
                 <i className="fas fa-chevron-right" onClick={() => this.handleClick(1)}></i>

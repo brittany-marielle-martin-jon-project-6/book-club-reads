@@ -12,7 +12,7 @@ class Bookshelf extends Component {
     }
   }
 
-  componentDidMount() {
+  updateFirebase = () => {
     this.dbRef.on('value', (data) => {
       const firebaseBookObj = data.val();
       const bookArray = [];
@@ -23,12 +23,12 @@ class Bookshelf extends Component {
       }
       this.setState({
         savedBooks: bookArray
-      }, () => {
-        console.log(this.state.savedBooks.length);
-
       })
-
     });
+  }
+
+  componentDidMount() {
+    this.updateFirebase();
   }
 
   handleRemoveBook = (bookId) => {

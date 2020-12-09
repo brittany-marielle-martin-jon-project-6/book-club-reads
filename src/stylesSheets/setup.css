@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 html {
   line-height: 1.15;
   -ms-text-size-adjust: 100%;
@@ -236,10 +241,12 @@ body {
   color: #1b2456;
 }
 
-h1,
-h2,
-h3 {
+h1 {
   font-family: "Merienda One", cursive;
+}
+
+h2 {
+  font-weight: bolder;
 }
 
 .App {

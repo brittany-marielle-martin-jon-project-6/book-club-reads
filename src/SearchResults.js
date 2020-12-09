@@ -19,7 +19,7 @@ class SearchResults extends Component {
       responseType: 'json',
       params: {
         q: input,
-        maxResults: 10
+        maxResults: 12
       }
     }).then((results) => {
       const bookResults = results.data.items;
@@ -119,18 +119,18 @@ class SearchResults extends Component {
   // Render relevant information on screen
   renderInformation = (book) => {
     return (
-      <div key={book.id}>
-        <h2>{book.title}</h2>
-        <h3>{book.authors}</h3>
-        <h3>{book.category}</h3>
-        <h4>{book.rating}</h4>
-        <h4>{book.publishedDate}</h4>
-        <h4>{book.publisher}</h4>
-        <h4>{book.pageCount}</h4>
-        <h4>{book.language}</h4>
-        <h4>{book.description}</h4>
+      <div className="result-box" key={book.id} style={{"background-image": `url(${book.bookImg})`}}>
         <img src={book.bookImg} alt={`Book cover for ${book.title}`} />
-        <button onClick={() => { this.handleClick(book) }}>Add to my bookshelf</button>
+        <div className="descriptionContainer">
+          <h2 className="title">{book.title}</h2>
+          <h3>By: {book.authors}</h3>
+          <h3>Genre: {book.category}</h3>
+          <h4>Rating: {book.rating}</h4>
+        </div>
+        <div className="buttonContainer">
+          <button><i className='fas fa-info-circle'></i>  More Details</button>
+          <button onClick={() => { this.handleClick(book) }}><i className='fas fa-plus'></i>  Add to my bookshelf</button>
+        </div>
       </div>
     );
   }
@@ -144,13 +144,13 @@ class SearchResults extends Component {
 
   render() {
     return (
-      <Fragment>
+      <section className="searchResSection">
         {
           this.state.books
             ? this.state.books.map((book) => this.renderInformation(book))
             : this.renderNoResultMessage()
         }
-      </Fragment>
+      </section>
     )
   }
 }

@@ -60,6 +60,7 @@
   align-items: center;
 }
 
+.addBook,
 .removeBook {
   width: 150px;
   background-color: #1b2456;

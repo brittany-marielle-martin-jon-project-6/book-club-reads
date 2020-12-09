@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
 class HeaderNav extends Component {
@@ -10,7 +10,6 @@ class HeaderNav extends Component {
       userInput: ''
     }
   }
-
   updateUserInput = (e) => {
     const userSearch = e.target.value;
     if (userSearch) { this.newInput = true; }
@@ -18,12 +17,9 @@ class HeaderNav extends Component {
       userInput: userSearch
     })
   }
-
   handleSubmit = (e) => {
     e.preventDefault();
   }
-
-
   renderNav = () => {
     return (
       <nav>
@@ -35,20 +31,27 @@ class HeaderNav extends Component {
       </nav>
     )
   }
+  renderForm = () => {
+    return(
+      <Fragment>
+        <Link to="/" className="logo"><h1><i className="fas fa-book-open"></i>Book Club Reads<i className="fas fa-book-open"></i></h1></Link>
+        <form onSubmit={this.handleSubmit}>
+          <label htmlFor="searchBook">Search </label>
+          <input type='text' id='searchbook' name='searchbook' className='searchBook' placeholder='title, author, genre' onChange={this.updateUserInput}></input>
+          <Link to={`/search/${this.state.userInput}`}>
+            <button className='searchButton'><i className="fas fa-search"></i></button>
+          </Link>
+        </form>
+      </Fragment>
+    )
+  }
   render() {
     return (
-
-
       <header>
         <div className="flexContainer container">
-          <Link to="/" className="logo"><h1><i className="fas fa-book-open"></i>Book Club Reads<i className="fas fa-book-open"></i></h1></Link>
-          <form onSubmit={this.handleSubmit}>
-            <label htmlFor="searchBook">Search </label>
-            <input type='text' id='searchbook' name='searchbook' className='searchBook' placeholder='title, author, genre' onChange={this.updateUserInput}></input>
-            <Link to={`/search/${this.state.userInput}`}>
-              <button className='searchButton'><i className="fas fa-search"></i></button>
-            </Link>
-          </form>
+          {
+            this.renderForm()
+          }
           {
             this.renderNav()
           }

@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import { Component } from 'react';
 import firebase from './firebase.js';
 import noCover from './assets/noCover.jpg';
 
@@ -49,88 +49,68 @@ class Bookshelf extends Component {
     }
   }
 
+  // Create infinite loop for the carousel display  
   indexLoop = (index) => {
-    if (index === -1) {
-      index = this.state.savedBooks.length - 1
-    } else if (
-      index === -2
-    ) { index = this.state.savedBooks.length - 2 }
-    else if (
-      index === this.state.savedBooks.length
-    ) {
-      index = 0;
-    } else if (
-      index === this.state.savedBooks.length + 1
-    ) {
-      index = 1
+    if (index < 0) {
+      // if the index is less than 0, then set it to max index minus the value of the index itself; '+' is used in the code because index is negative  
+      index = this.state.savedBooks.length + index;
+    } else if (index > this.state.savedBooks.length - 1) {
+      // if the index is more than max index, then set it to be the difference between itself and the length of the array
+      index = index - this.state.savedBooks.length;
     }
     return index;
   }
-  // display this.state.savedBooks.slice(indexOfDisplayedBook, indexOfDisplayedBook + 1)
-
-  renderBookDisplay = () => {
-    // const book = this.state.savedBooks.slice(this.state.indexOfDisplayedBook, this.state.indexOfDisplayedBook + 2);
-    let leftEndBookIndex = this.state.indexOfDisplayedBook - 2;
-    leftEndBookIndex = this.indexLoop(leftEndBookIndex);
-
-    const leftEndBook = this.state.savedBooks[leftEndBookIndex];
-
-    let leftBookIndex = this.state.indexOfDisplayedBook - 1;
-    leftBookIndex = this.indexLoop(leftBookIndex);
-
-    const leftBook = this.state.savedBooks[leftBookIndex];
-
-    let rightBookIndex = this.state.indexOfDisplayedBook + 1;
-    rightBookIndex = this.indexLoop(rightBookIndex);
-
-    const rightBook = this.state.savedBooks[rightBookIndex];
-
-    let rightEndBookIndex = this.state.indexOfDisplayedBook + 2;
-    rightEndBookIndex = this.indexLoop(rightEndBookIndex);
-
-    const rightEndBook = this.state.savedBooks[rightEndBookIndex];
-
-    const displayedBook = this.state.savedBooks[this.state.indexOfDisplayedBook];
-
-    const bookImg = this.handleMissingCoverImage(displayedBook[0]) // add stock no image available 
-    const leftEndBookImg = this.handleMissingCoverImage(leftEndBook[0]);
-    const leftBookImg = this.handleMissingCoverImage(leftBook[0]);
-    const rightBookImg = this.handleMissingCoverImage(rightBook[0]);
-    const rightEndBookImg = this.handleMissingCoverImage(rightEndBook[0]);
-
-    console.log('displayed', this.state.indexOfDisplayedBook)
-    console.log('left end', leftEndBookIndex)
-    console.log('left', leftBookIndex)
-    console.log('right', rightBookIndex)
-    console.log('right end', rightEndBookIndex)
-
+  
+  // Function to display individual books  
+  displayBook = (key, className, bookImageUrl, altText) => {
+      return(
+          <div key={key} className={className}>
+              <img src={bookImageUrl} alt={altText} />
+          </div>
+      )
+  }
+  
+  // Render the books on the screen
+  renderBookDisplay = (numOfBooks) => {
+    // Check if the number of books to display exceeds the number of saved books; if so, then set the number of books to display to equal the number of saved books
+    if (numOfBooks > this.state.savedBooks.length) {
+        numOfBooks = this.state.savedBooks.length;
+    }
+    // If the number of books to display is even, make it odd by take 1 away so the carousel display is balanced
+    if (numOfBooks % 2 === 0) {
+        numOfBooks -= 1;
+    }
+    // Set the start index of the books on the carousel display
+    let startIndex = this.state.indexOfDisplayedBook - Math.floor(numOfBooks / 2);
+    // Push the books to display into the displayArray
+    let displayArray = [];
+    for (let i = 0; i < numOfBooks; i++) {
+        startIndex = this.indexLoop(startIndex);
+        displayArray.push(this.state.savedBooks[startIndex]);
+        startIndex++;
+    }
+    // Find the firebase ID of the displayed book; to be passed as a parameter into the handleRemoveBook function
     const firebaseIdOfDisplayedBook = this.state.savedBooks[this.state.indexOfDisplayedBook][2];
-    console.log(firebaseIdOfDisplayedBook);
     return (
         <section className="carousel">
-        <div className="bookShelfDisplay">
-        <i class="fas fa-chevron-left" onClick={() => this.handleClick(-1)}></i>
-          <div className="shelvedBooks">
-            <img src={leftEndBookImg} alt="dfdf" />
-          </div>
-
-          <div className="shelvedBooks">
-            <img src={leftBookImg} alt="dfdf" />
-          </div>
-
-          <div className="displayedBook">
-            <img src={bookImg} alt="dfdf" />
-          </div>
-
-          <div className="shelvedBooks">
-            <img src={rightBookImg} alt="dfdf" />
-          </div>
-
-          <div className="shelvedBooks">
-            <img src={rightEndBookImg} alt="dfdf" />
-          </div>
-            <i class="fas fa-chevron-right" onClick={() => this.handleClick(1)}></i>
-        </div>
+            <div className="bookShelfDisplay">
+                <i className="fas fa-chevron-left" onClick={() => this.handleClick(-1)}></i>
+                {
+                    displayArray.map((book, index) => {
+                        let className = '';
+                        if (index === Math.floor(numOfBooks / 2)) {
+                            className = 'displayedBook';
+                        } else {
+                            className = 'shelvedBooks';
+                        }
+                        const bookImageUrl = this.handleMissingCoverImage(book[0]);
+                        const altText = book[0].title;
+                        const key = book[2];
+                        return this.displayBook(key, className, bookImageUrl, altText);
+                    })
+                }
+                <i className="fas fa-chevron-right" onClick={() => this.handleClick(1)}></i>
+            </div>
             <button onClick={() => this.handleRemoveBook(firebaseIdOfDisplayedBook)} className='removeBook'>Remove</button>
         </section>
     )
@@ -138,21 +118,18 @@ class Bookshelf extends Component {
 
   renderErrorMessage = () => {
     return (
-      <h2>No saved books yet!</h2>
+      <h2 className="bookshelfEmptyMessage">No saved books yet!</h2>
     )
   }
 
   render() {
     return (
       <div className="bookshelf">
-        
         {
           this.state.savedBooks.length
-            ? this.renderBookDisplay()
+            ? this.renderBookDisplay(9)
             : this.renderErrorMessage()
         }
-
-        
       </div>
     )
   }

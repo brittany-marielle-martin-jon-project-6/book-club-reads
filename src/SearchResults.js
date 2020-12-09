@@ -25,7 +25,7 @@ class SearchResults extends Component {
       const bookResults = results.data.items;
       const formattedBookResults = [];
       bookResults.forEach((book) => {
-        formattedBookResults.push(this.bindInformation(book));
+        formattedBookResults.push(this.createBookObj(book));
       });
       this.setState({
         books: formattedBookResults
@@ -35,7 +35,7 @@ class SearchResults extends Component {
     })
   }
 
-  bindInformation = (book) => {
+  createBookObj = (book) => {
       const bookObj = {};
       bookObj.id = book.id;
       bookObj.title = this.handleMissingInfoError(book.volumeInfo.title, 'Unknown title');
@@ -114,20 +114,6 @@ class SearchResults extends Component {
     } else {
       return noCover;
     }
-  }
-
-  setUpDataBase() {
-    // Make reference to database
-    const dbRef = firebase.database().ref();
-    // Get data from database
-    let firebaseDataObj;
-    dbRef.on('value', (data) => {
-      firebaseDataObj = data.val();
-    });
-  }
-
-  createBookObject = () => {
-    return
   }
 
   // Render relevant information on screen

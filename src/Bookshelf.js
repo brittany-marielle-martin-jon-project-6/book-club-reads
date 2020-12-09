@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import firebase from './firebase.js';
 import { Link } from 'react-router-dom';
-import noCover from './assets/noCover.jpg';
 
 class Bookshelf extends Component {
   constructor() {
@@ -24,8 +23,22 @@ class Bookshelf extends Component {
       }
       this.setState({
         savedBooks: bookArray
+      }, () => {
+        console.log(this.state.savedBooks.length);
+
       })
+
     });
+  }
+
+  handleRemoveBook = (bookId) => {
+    this.dbRef.child(bookId).remove();
+    // Error handling when the index of displayed book is greater than the max index of saveBooks array
+    if (this.state.indexOfDisplayedBook >= this.state.savedBooks.length - 1) {
+      this.setState({
+        indexOfDisplayedBook: this.state.indexOfDisplayedBook - 1
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -40,15 +53,7 @@ class Bookshelf extends Component {
     })
   }
 
-  handleRemoveBook = (bookId) => {
-    this.dbRef.child(bookId).remove();
-    // Error handling when the index of displayed book is greater than the max index of saveBooks array
-    if (this.state.indexOfDisplayedBook > this.state.savedBooks.length - 2) {
-        this.setState({
-            indexOfDisplayedBook: this.state.indexOfDisplayedBook - 1
-        })
-    }
-  }
+  
 
   // Create infinite loop for the carousel display  
   indexLoop = (index) => {
@@ -93,46 +98,46 @@ class Bookshelf extends Component {
   renderBookDisplay = (numOfBooks) => {
     // Check if the number of books to display exceeds the number of saved books; if so, then set the number of books to display to equal the number of saved books
     if (numOfBooks > this.state.savedBooks.length) {
-        numOfBooks = this.state.savedBooks.length;
+      numOfBooks = this.state.savedBooks.length;
     }
     // If the number of books to display is even, make it odd by take 1 away so the carousel display is balanced
     if (numOfBooks % 2 === 0) {
-        numOfBooks -= 1;
+      numOfBooks -= 1;
     }
     // Set the start index of the books on the carousel display
     let startIndex = this.state.indexOfDisplayedBook - Math.floor(numOfBooks / 2);
     // Push the books to display into the displayArray
     let displayArray = [];
     for (let i = 0; i < numOfBooks; i++) {
-        startIndex = this.indexLoop(startIndex);
-        displayArray.push(this.state.savedBooks[startIndex]);
-        startIndex++;
+      startIndex = this.indexLoop(startIndex);
+      displayArray.push(this.state.savedBooks[startIndex]);
+      startIndex++;
     }
     // Find the firebase ID of the displayed book; to be passed as a parameter into the handleRemoveBook function
     const firebaseIdOfDisplayedBook = this.state.savedBooks[this.state.indexOfDisplayedBook][2];
     return (
-        <section className="carousel">
-            <div className="bookShelfDisplay">
-                <i className="fas fa-chevron-left" onClick={() => this.handleClick(-1)}></i>
-                {
-                    displayArray.map((book, index) => {
-                        let className = '';
-                        if (index === Math.floor(numOfBooks / 2)) {
-                            className = 'displayedBook';
-                        } else {
-                            className = 'shelvedBooks';
-                        }
-                        const bookImageUrl = book[0].bookImg;
-                        const altText = `Book cover for ${book[0].title}`;
-                        const key = book[2];
-                        const bookTitle = book[0].title;
-                        return this.displayBook(key, className, bookImageUrl, altText, bookTitle);
-                    })
-                }
-                <i className="fas fa-chevron-right" onClick={() => this.handleClick(1)}></i>
-            </div>
-            <button onClick={() => this.handleRemoveBook(firebaseIdOfDisplayedBook)} className='removeBook'>Remove</button>
-        </section>
+      <section className="carousel">
+        <div className="bookShelfDisplay">
+          <i className="fas fa-chevron-left" onClick={() => this.handleClick(-1)}></i>
+          {
+            displayArray.map((book, index) => {
+              let className = '';
+              if (index === Math.floor(numOfBooks / 2)) {
+                className = 'displayedBook';
+              } else {
+                className = 'shelvedBooks';
+              }
+              const bookImageUrl = book[0].bookImg;
+              const altText = `Book cover for ${book[0].title}`;
+              const key = book[2];
+              const bookTitle = book[0].title;
+              return this.displayBook(key, className, bookImageUrl, altText, bookTitle);
+            })
+          }
+          <i className="fas fa-chevron-right" onClick={() => this.handleClick(1)}></i>
+        </div>
+        <button onClick={() => this.handleRemoveBook(firebaseIdOfDisplayedBook)} className='removeBook'>Remove</button>
+      </section>
     )
   }
 
@@ -143,7 +148,6 @@ class Bookshelf extends Component {
   }
 
   render() {
-      console.log('rendered')
     return (
       <div className="bookshelf">
         {

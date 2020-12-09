@@ -13,7 +13,6 @@ class BookDetails extends Component {
     renderInformation = (book) => {
         return (
             <div>
-                <h2>Hello!</h2>
                 <h2>{book.title}</h2>
                 <h3>{book.authors}</h3>
                 <h3>{book.category}</h3>

@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, Fragment } from 'react';
 import axios from 'axios';
 import noCover from './assets/noCover.jpg';
 import firebase from './firebase.js';
@@ -19,16 +19,36 @@ class SearchResults extends Component {
       responseType: 'json',
       params: {
         q: input,
-        maxResults: 10
+        maxResults: 12
       }
     }).then((results) => {
       const bookResults = results.data.items;
+      const formattedBookResults = [];
+      bookResults.forEach((book) => {
+        formattedBookResults.push(this.bindInformation(book));
+      });
       this.setState({
-        books: bookResults
+        books: formattedBookResults
       });
     }).catch((error) => {
       console.log(error);
     })
+  }
+
+  bindInformation = (book) => {
+      const bookObj = {};
+      bookObj.id = book.id;
+      bookObj.title = this.handleMissingInfoError(book.volumeInfo.title, 'Unknown title');
+      bookObj.authors = this.handleMissingInfoError(book.volumeInfo.authors, 'Unknown author');
+      bookObj.category = this.handleMissingInfoError(book.volumeInfo.categories, 'Unknown genre');
+      bookObj.rating = this.handleMissingInfoError(book.volumeInfo.averageRating, 'No rating');
+      bookObj.bookImg = this.handleMissingCoverImage(book.volumeInfo) // add stock no image available 
+      bookObj.pageCount = this.handleMissingInfoError(book.volumeInfo.pageCount, 'Unknown page count');
+      bookObj.publisher = this.handleMissingInfoError(book.volumeInfo.publisher, 'Unknown publisher');
+      bookObj.language = this.handleMissingInfoError(book.volumeInfo.language, 'Unknown language');
+      bookObj.description = this.handleMissingInfoError(book.volumeInfo.description, 'No description');
+      bookObj.publishedDate = this.handleMissingInfoError(book.volumeInfo.publishedDate, 'Unknown published date');
+      return bookObj;
   }
 
   componentDidMount() {
@@ -46,7 +66,7 @@ class SearchResults extends Component {
   handleClick = (bookObject) => {
     const dbRef = firebase.database().ref()
     const bookAndCompleted = {
-      book: bookObject.volumeInfo,
+      book: bookObject,
       completed: false
     }
     dbRef.push(bookAndCompleted);
@@ -106,42 +126,25 @@ class SearchResults extends Component {
     });
   }
 
-  // createBookObject = () => {
-  //     return 
-  // }
+  createBookObject = () => {
+    return
+  }
 
   // Render relevant information on screen
   renderInformation = (book) => {
-    const title = this.handleMissingInfoError(book.volumeInfo.title, 'Unknown title');
-    const authors = this.handleMissingInfoError(book.volumeInfo.authors, 'Unknown author');
-    const category = this.handleMissingInfoError(book.volumeInfo.categories, 'Unknown genre');
-    const rating = this.handleMissingInfoError(book.volumeInfo.averageRating, 'No rating');
-    const bookImg = this.handleMissingCoverImage(book.volumeInfo) // add stock no image available 
-    const pageCount = this.handleMissingInfoError(book.volumeInfo.pageCount, 'Unknown page count');
-    const buyBook = this.handleMissingInfoError(book.saleInfo.buyLink, 'Not available for purchase on Google Play');
-    const publisher = this.handleMissingInfoError(book.volumeInfo.publisher, 'Unknown publisher');
-    const language = this.handleMissingInfoError(book.volumeInfo.language, 'Unknown language');
-    const description = this.handleMissingInfoError(book.volumeInfo.description, 'No description');
-    const publishedDate = this.handleMissingInfoError(book.volumeInfo.publishedDate, 'Unknown published date');
-
     return (
-      <div key={book.id}>
-        <h2>{title}</h2>
-        <h3>{authors}</h3>
-        <h3>{category}</h3>
-        <h4>{rating}</h4>
-        <h4>{publishedDate}</h4>
-        <h4>{publisher}</h4>
-        <h4>{pageCount}</h4>
-        <h4>{language}</h4>
-        {
-          buyBook.includes('https')
-            ? <a href={buyBook}>Buy book</a>
-            : <p>{buyBook}</p>
-        }
-        <h4>{description}</h4>
-        <img src={bookImg} alt={`Book cover for ${title}`} />
-        <button onClick={() => { this.handleClick(book) }}>Add to my bookshelf</button>
+      <div className="result-box" key={book.id} style={{"background-image": `url(${book.bookImg})`}}>
+        <img src={book.bookImg} alt={`Book cover for ${book.title}`} />
+        <div className="descriptionContainer">
+          <h2 className="title">{book.title}</h2>
+          <h3>By: {book.authors}</h3>
+          <h3>Genre: {book.category}</h3>
+          <h4>Rating: {book.rating}</h4>
+        </div>
+        <div className="buttonContainer">
+          <button><i className='fas fa-info-circle'></i>  More Details</button>
+          <button onClick={() => { this.handleClick(book) }}><i className='fas fa-plus'></i>  Add to my bookshelf</button>
+        </div>
       </div>
     );
   }
@@ -155,15 +158,16 @@ class SearchResults extends Component {
 
   render() {
     return (
-      <div>
+      <section className="searchResSection">
         {
           this.state.books
             ? this.state.books.map((book) => this.renderInformation(book))
             : this.renderNoResultMessage()
         }
-      </div>
+      </section>
     )
   }
 }
+
 
 export default SearchResults;

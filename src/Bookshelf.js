@@ -1,138 +1,158 @@
 import { Component } from 'react';
 import firebase from './firebase.js';
-import noCover from './assets/noCover.jpg';
+import { Link } from 'react-router-dom';
 
 class Bookshelf extends Component {
-    constructor() {
-        super();
-        this.state = {
-            savedBooks: [],
-            indexOfDisplayedBook: 0
-        }
+  constructor() {
+    super();
+    this.dbRef = firebase.database().ref();
+    this.state = {
+      savedBooks: [],
+      indexOfDisplayedBook: 0
     }
+  }
 
-    componentDidMount() {
-        const dbRef = firebase.database().ref();
-        dbRef.on('value', (data) => {
-            const firebaseBookObj = data.val();
-            const bookArray = [];
-            for (let bookKey in firebaseBookObj) {
-                const eachBook = firebaseBookObj[bookKey].book;
-                const finishedReading = firebaseBookObj[bookKey].completed;
-                bookArray.push([eachBook, finishedReading]);
-            }
-            this.setState({
-                savedBooks: bookArray
-            })
-        });
-    }
+  componentDidMount() {
+    this.dbRef.on('value', (data) => {
+      const firebaseBookObj = data.val();
+      const bookArray = [];
+      for (let bookKey in firebaseBookObj) {
+        const eachBook = firebaseBookObj[bookKey].book;
+        const finishedReading = firebaseBookObj[bookKey].completed;
+        bookArray.push([eachBook, finishedReading, bookKey]);
+      }
+      this.setState({
+        savedBooks: bookArray
+      })
+    });
+  }
 
-    handleClick = (change) => {
-        let newIndex = this.state.indexOfDisplayedBook + change;
-        newIndex = this.indexLoop(newIndex);
+  componentWillUnmount() {
+      this.dbRef.off();
+  }
+
+  handleClick = (change) => {
+    let newIndex = this.state.indexOfDisplayedBook + change;
+    newIndex = this.indexLoop(newIndex);
+    this.setState({
+      indexOfDisplayedBook: newIndex
+    })
+  }
+
+  handleRemoveBook = (bookId) => {
+    this.dbRef.child(bookId).remove();
+    // Error handling when the index of displayed book is greater than the max index of saveBooks array
+    if (this.state.indexOfDisplayedBook > this.state.savedBooks.length - 2) {
         this.setState({
-            indexOfDisplayedBook: newIndex
+            indexOfDisplayedBook: this.state.indexOfDisplayedBook - 1
         })
     }
+  }
 
-    // If the cover image is missing, display no-cover image
-    handleMissingCoverImage = (info) => {
-        if (info.imageLinks) {
-            return info.imageLinks.thumbnail;
-        } else {
-            return noCover;
-        }
+  // Create infinite loop for the carousel display  
+  indexLoop = (index) => {
+    if (index < 0) {
+      // if the index is less than 0, then set it to max index minus the value of the index itself; '+' is used in the code because index is negative  
+      index = this.state.savedBooks.length + index;
+    } else if (index > this.state.savedBooks.length - 1) {
+      // if the index is more than max index, then set it to be the difference between itself and the length of the array
+      index = index - this.state.savedBooks.length;
     }
-
-    indexLoop = (index) => {
-        if (index < 0) {
-            index = this.state.savedBooks.length - 1
-        } else if (
-            index > this.state.savedBooks.length - 1
-        ) {
-            index = 0;
-        }
-        return index;
+    return index;
+  }
+  
+  // Function to display individual books  
+  displayBook = (key, className, bookImageUrl, altText, bookTitle) => {
+      if (className === 'displayedBook') {
+          return (
+              <section key={key} className={className}>
+                  <div>
+                      <Link to={`/mybookshelf/${bookTitle}`}>
+                        <img src={bookImageUrl} alt={altText} />
+                      </Link>
+                  </div>
+                  <Link to={`/mybookshelf/${bookTitle}`}>
+                    <h3>{bookTitle}</h3>
+                  </Link>
+              </section>
+          )
+      } else {
+          return (
+              <section key={key} className={className}>
+                  <div>
+                      <img src={bookImageUrl} alt={altText} />
+                  </div>
+                  <h3>{bookTitle}</h3>
+              </section>
+          )
+      }
+  }
+  
+  // Render the books on the screen
+  renderBookDisplay = (numOfBooks) => {
+    // Check if the number of books to display exceeds the number of saved books; if so, then set the number of books to display to equal the number of saved books
+    if (numOfBooks > this.state.savedBooks.length) {
+        numOfBooks = this.state.savedBooks.length;
     }
-    // display this.state.savedBooks.slice(indexOfDisplayedBook, indexOfDisplayedBook + 1)
-
-    renderBookDisplay = () => {
-        // const book = this.state.savedBooks.slice(this.state.indexOfDisplayedBook, this.state.indexOfDisplayedBook + 2);
-
-        let leftEndBookIndex = this.state.indexOfDisplayedBook - 2;
-        leftEndBookIndex = this.indexLoop(leftEndBookIndex);
-
-        const leftEndBook = this.state.savedBooks[leftEndBookIndex];
-
-        let leftBookIndex = this.state.indexOfDisplayedBook -1;
-        leftBookIndex = this.indexLoop(leftBookIndex);
-
-        const leftBook = this.state.savedBooks[leftBookIndex];
-
-        let rightBookIndex = this.state.indexOfDisplayedBook + 1;
-        rightBookIndex = this.indexLoop(rightBookIndex);
-        
-        const rightBook = this.state.savedBooks[rightBookIndex];
-
-        let rightEndBookIndex = this.state.indexOfDisplayedBook + 2;
-        rightEndBookIndex = this.indexLoop(rightEndBookIndex);
-
-        const rightEndBook = this.state.savedBooks[rightEndBookIndex];
-
-        const displayedBook = this.state.savedBooks[this.state.indexOfDisplayedBook];
-
-        const bookImg = this.handleMissingCoverImage(displayedBook[0]) // add stock no image available 
-        const leftEndBookImg = this.handleMissingCoverImage(leftEndBook[0]);
-        const leftBookImg = this.handleMissingCoverImage(leftBook[0]);
-        const rightBookImg = this.handleMissingCoverImage(rightBook[0]);
-        const rightEndBookImg = this.handleMissingCoverImage(rightEndBook[0]);
-        return(
+    // If the number of books to display is even, make it odd by take 1 away so the carousel display is balanced
+    if (numOfBooks % 2 === 0) {
+        numOfBooks -= 1;
+    }
+    // Set the start index of the books on the carousel display
+    let startIndex = this.state.indexOfDisplayedBook - Math.floor(numOfBooks / 2);
+    // Push the books to display into the displayArray
+    let displayArray = [];
+    for (let i = 0; i < numOfBooks; i++) {
+        startIndex = this.indexLoop(startIndex);
+        displayArray.push(this.state.savedBooks[startIndex]);
+        startIndex++;
+    }
+    // Find the firebase ID of the displayed book; to be passed as a parameter into the handleRemoveBook function
+    const firebaseIdOfDisplayedBook = this.state.savedBooks[this.state.indexOfDisplayedBook][2];
+    return (
+        <section className="carousel">
             <div className="bookShelfDisplay">
-                <div className="shelvedBooks">
-                    <img src={leftEndBookImg} alt="dfdf" />
-                </div>
-
-                <div className="shelvedBooks">
-                    <img src={leftBookImg} alt="dfdf" />
-                </div>
-
-                <div className="displayedBook">
-                    <img src={bookImg} alt="dfdf" />
-                </div>
-
-                <div className="shelvedBooks">
-                    <img src={rightBookImg} alt="dfdf" />
-                </div>
-
-                <div className="shelvedBooks">
-                    <img src={rightEndBookImg} alt="dfdf" />
-                </div>
-        
-            </div>
-
-            
-        )
-    }
-
-    renderErrorMessage = () => {
-        return(
-            <h2>No saved books yet!</h2>
-        )
-    }
-
-    render() {
-        return(
-            <div className="bookshelf">
-                <i class="fas fa-chevron-left" onClick={() => this.handleClick(-1)}></i>
+                <i className="fas fa-chevron-left" onClick={() => this.handleClick(-1)}></i>
                 {
-                    this.state.savedBooks.length
-                        ? this.renderBookDisplay()
-                        : this.renderErrorMessage()
+                    displayArray.map((book, index) => {
+                        let className = '';
+                        if (index === Math.floor(numOfBooks / 2)) {
+                            className = 'displayedBook';
+                        } else {
+                            className = 'shelvedBooks';
+                        }
+                        const bookImageUrl = book[0].bookImg;
+                        const altText = `Book cover for ${book[0].title}`;
+                        const key = book[2];
+                        const bookTitle = book[0].title;
+                        return this.displayBook(key, className, bookImageUrl, altText, bookTitle);
+                    })
                 }
-                <i class="fas fa-chevron-right" onClick={() => this.handleClick(1)}></i>
+                <i className="fas fa-chevron-right" onClick={() => this.handleClick(1)}></i>
             </div>
-        )
-    }
+            <button onClick={() => this.handleRemoveBook(firebaseIdOfDisplayedBook)} className='removeBook'>Remove</button>
+        </section>
+    )
+  }
+
+  renderErrorMessage = () => {
+    return (
+      <h2 className="bookshelfEmptyMessage">No saved books yet!</h2>
+    )
+  }
+
+  render() {
+      console.log('rendered')
+    return (
+      <div className="bookshelf">
+        {
+          this.state.savedBooks.length
+            ? this.renderBookDisplay(9)
+            : this.renderErrorMessage()
+        }
+      </div>
+    )
+  }
 }
 
 export default Bookshelf;

@@ -5,6 +5,7 @@ import noCover from './assets/noCover.jpg';
 class Bookshelf extends Component {
   constructor() {
     super();
+    this.dbRef = firebase.database().ref();
     this.state = {
       savedBooks: [],
       indexOfDisplayedBook: 0
@@ -12,8 +13,7 @@ class Bookshelf extends Component {
   }
 
   componentDidMount() {
-    const dbRef = firebase.database().ref();
-    dbRef.on('value', (data) => {
+    this.dbRef.on('value', (data) => {
       const firebaseBookObj = data.val();
       const bookArray = [];
       for (let bookKey in firebaseBookObj) {
@@ -27,6 +27,10 @@ class Bookshelf extends Component {
     });
   }
 
+  componentWillUnmount() {
+      this.dbRef.off();
+  }
+
   handleClick = (change) => {
     let newIndex = this.state.indexOfDisplayedBook + change;
     newIndex = this.indexLoop(newIndex);
@@ -36,8 +40,13 @@ class Bookshelf extends Component {
   }
 
   handleRemoveBook = (bookId) => {
-    const dbRef = firebase.database().ref()
-    dbRef.child(bookId).remove();
+    this.dbRef.child(bookId).remove();
+    // Error handling when the index of displayed book is greater than the max index of saveBooks array
+    if (this.state.indexOfDisplayedBook > this.state.savedBooks.length - 2) {
+        this.setState({
+            indexOfDisplayedBook: this.state.indexOfDisplayedBook - 1
+        })
+    }
   }
 
   // If the cover image is missing, display no-cover image
@@ -123,6 +132,7 @@ class Bookshelf extends Component {
   }
 
   render() {
+      console.log('rendered')
     return (
       <div className="bookshelf">
         {

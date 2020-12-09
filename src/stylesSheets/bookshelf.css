@@ -1,37 +1,82 @@
-.wooden-background {
-    background-image: url("../assets/steve-johnson-B2_zWEdpLlo-unsplash.jpg");
-    background-position: 90%;
-    background-repeat: no-repeat;
-    padding: 80px 0;
-    width: 100%;
+.bookshelf {
+  background-image: url("../assets/robert-anasch-McX3XuJRsUM-unsplash-blackandwhite.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 80vh;
+  /* padding: 80px 0; */
 }
 
-.bookshelf {
+.carousel {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    background-color: #fff;
-    padding: 50px 0;
+}
+
+/* .bookshelf::before {
+  content: "";
+  position: absolute;
+  top: 15vh; left: 0;
+  width: 100%; height: 80vh;
+  background-image: url("../assets/robert-anasch-McX3XuJRsUM-unsplash.jpg");
+  filter: grayscale(100%);
+  background-size: cover;
+  background-repeat: no-repeat;
+} */
+
+.bookshelf {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 50px 0;
 }
 
 .bookshelf i {
-    font-size: 5rem;
-    cursor: pointer;
-    color: #1b2456;
-    padding: 0 20px;
+  font-size: 5rem;
+  cursor: pointer;
+  color: #1b2456;
+  padding: 0 20px;
 }
 
 .bookShelfDisplay {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 100%;
-    background-color: #fff;
-    padding: 25px 0;
-    height: 300px;
-    min-height: 300px
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100vw;
+  background-color: rgba(255, 255, 255, 0.595);
+  padding: 25px 0;
+  min-height: 300px;
 }
 
 .shelvedBooks img {
-    width: 65%;
+  width: 65%;
+}
+
+.shelvedBooks,
+.displayedBook {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.removeBook {
+  width: 150px;
+  background-color: #1b2456;
+  color: #fff;
+  border: 1px solid #1b2456;
+  border-radius: 20px;
+  padding: 10px;
+  margin-top: 20px;
+  text-transform: uppercase;
+  font-size: 2rem;
+}
+
+.bookshelfEmptyMessage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 80vh;
+    background-color: rgba(255, 255, 255, 0.595);
 }

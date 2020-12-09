@@ -1,0 +1,17 @@
+.result-box {
+    background-color: grey;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+.result-box img {
+    align-self: center;
+}
+
+
+.searchResSection {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+}

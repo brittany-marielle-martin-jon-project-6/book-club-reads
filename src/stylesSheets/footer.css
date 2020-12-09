@@ -1,0 +1,12 @@
+footer {
+    background-color: #1b2456;
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+    height: 5vh;
+}
+footer a {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #fff;
+}

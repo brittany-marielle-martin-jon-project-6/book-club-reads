@@ -8,6 +8,7 @@ header {
   text-transform: uppercase;
   height: 15vh;
   align-items: center;
+  
 }
 
 .capitalB {
@@ -79,6 +80,79 @@ button:focus {
   padding-left: 10px;
 }
 
+.titleFormContainer {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+form {
+  position: relative;
+}
+
+.suggestionContainer {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  left: 52px;
+  width: 300px;
+  background-color: whitesmoke;
+}
+
+.suggestionContainer label {
+  background-color: none ;
+  padding: 12px;
+}
+
+input[type="radio"] {
+  appearance: none;
+}
+
+input[type="radio"]:focus ~ label {
+  background-color: hotpink;
+}
+
+@media (max-width: 1067px) {
+  h1 {
+    font-size: 2rem;
+  }
+  .searchBook {
+    width: 250px;
+  }
+}
+
+@media (max-width: 848px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+  .flexContainer {
+    flex-direction: column;
+    padding: 0;
+  }
+  .titleFormContainer {
+    flex-direction: column;
+    gap: 0;
+  }
+  .headerNav {
+    height: 10vh;
+  }
+  .iconContainer {
+    flex-direction: row;
+  }
+  .iconContainer i {
+    margin: 0 15px;
+  }
+}
+
+@media (max-width: 570px){
+  h1 {
+    font-size: 2rem;
+  }
+  .iconContainer {
+    right: calc(50% - 114px);
+  }
+}
 /* Responsive Design */
 .search-form {
   display: flex;

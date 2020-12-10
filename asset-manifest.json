@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/book-club-reads/static/css/main.d15a80e1.chunk.css",
-    "main.js": "/book-club-reads/static/js/main.7962bc88.chunk.js",
-    "main.js.map": "/book-club-reads/static/js/main.7962bc88.chunk.js.map",
+    "main.js": "/book-club-reads/static/js/main.90412555.chunk.js",
+    "main.js.map": "/book-club-reads/static/js/main.90412555.chunk.js.map",
     "runtime-main.js": "/book-club-reads/static/js/runtime-main.39b71c08.js",
     "runtime-main.js.map": "/book-club-reads/static/js/runtime-main.39b71c08.js.map",
     "static/js/2.f5dff1a3.chunk.js": "/book-club-reads/static/js/2.f5dff1a3.chunk.js",
@@ -19,6 +19,6 @@
     "static/js/runtime-main.39b71c08.js",
     "static/js/2.f5dff1a3.chunk.js",
     "static/css/main.d15a80e1.chunk.css",
-    "static/js/main.7962bc88.chunk.js"
+    "static/js/main.90412555.chunk.js"
   ]
 }

@@ -1,7 +1,6 @@
-import { Component } from 'react';
+import { Component, Fragment } from 'react';
 import firebase from './firebase.js';
 import { Link } from 'react-router-dom';
-import { logDOM } from '@testing-library/react';
 
 class Bookshelf extends Component {
   constructor() {
@@ -9,7 +8,8 @@ class Bookshelf extends Component {
     this.dbRef = firebase.database().ref();
     this.state = {
       savedBooks: [],
-      indexOfDisplayedBook: 0
+      indexOfDisplayedBook: 0,
+      gridDisplay: false
     }
   }
 
@@ -57,8 +57,6 @@ class Bookshelf extends Component {
     })
   }
 
-  
-
   // Create infinite loop for the carousel display  
   indexLoop = (index) => {
     if (index < 0) {
@@ -93,9 +91,62 @@ class Bookshelf extends Component {
       </Link>
     )
   }
+
+  toggleDisplay = (grid) => {
+    if (grid) {
+      this.setState({
+        gridDisplay: true
+      })
+    } else {
+      this.setState({
+        gridDisplay: false
+      })
+    }
+  }
   
   // Render the books on the screen
   renderBookDisplay = (numOfBooks) => {
+    return (
+      <Fragment>
+        <div>
+          <button onClick={() => this.toggleDisplay(true)}>Grid</button>
+          <button onClick={() => this.toggleDisplay(false)}>Carousel</button>
+        </div>
+        {
+          this.state.gridDisplay
+            ? this.renderGridDisplay()
+            : this.renderCarousel(numOfBooks)
+        }
+      </Fragment>
+    )
+  }
+
+  renderGridDisplay = () => {
+    return(
+      <section className="gridDisplay">
+        <div className="bookShelfDisplay">
+          {
+            this.state.savedBooks.map((book) => {
+              const bookImageUrl = book[0].bookImg;
+              const altText = `Book cover for ${book[0].title}`;
+              const key = book[2];
+              const bookTitle = book[0].title;
+              return (
+                <div className="displayedBook">
+                  <Link to={`/mybookshelf/${bookTitle}`}>
+                    <img src={bookImageUrl} alt={altText} />
+                  </Link>
+                  <button onClick={() => this.handleRemoveBook(key)} className='removeBook'>Remove</button>
+                </div>
+              )
+            })
+          }
+        </div>
+      </section>
+    )
+  }
+
+  renderCarousel = (numOfBooks) => {
     // Check if the number of books to display exceeds the number of saved books; if so, then set the number of books to display to equal the number of saved books
     if (numOfBooks > this.state.savedBooks.length) {
       numOfBooks = this.state.savedBooks.length;
@@ -115,7 +166,7 @@ class Bookshelf extends Component {
     }
     // Find the firebase ID of the displayed book; to be passed as a parameter into the handleRemoveBook function
     const firebaseIdOfDisplayedBook = this.state.savedBooks[this.state.indexOfDisplayedBook][2];
-    return (
+    return(
       <section className="carousel">
         <div className="bookShelfDisplay">
           <i className="fas fa-chevron-left" onClick={() => this.handleClick(-1)}></i>
@@ -159,8 +210,6 @@ class Bookshelf extends Component {
     // console.log(completionPercentage);
     return completionPercentage; 
   }
-
-  
 
   render() {
     this.completedCalculation();

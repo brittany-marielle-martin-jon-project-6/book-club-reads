@@ -87,12 +87,24 @@ class BookDetails extends Component {
         )
     }
 
+    renderExitButton = () => {
+        return(
+            this.state.saved
+                ? <Link to="/mybookshelf">
+                    <button className="exitButton"><i className="fas fa-times-circle"></i></button>
+                  </Link>
+                : <Link to={`/search/${this.state.bookToDisplay.searchInput}`}>
+                    <button className="exitButton"><i className="fas fa-times-circle"></i></button>
+                  </Link>
+        )
+    }
+
     renderInformation = (book) => {
         return (
             <div className="detailsFlexContainer container">
-                <Link to="/mybookshelf">
-                    <button className="exitButton"><i className="fas fa-times-circle"></i></button>
-                </Link>
+                {
+                    this.renderExitButton()
+                }
                 <div className="imageContainer">
                     <img src={book.bookImg} alt={`Book cover for ${book.title}`} />
                 </div>

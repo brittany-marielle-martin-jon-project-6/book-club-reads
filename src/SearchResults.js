@@ -49,12 +49,13 @@ class SearchResults extends Component {
       bookObj.authors = this.handleMissingInfoError(book.volumeInfo.authors, 'Unknown author');
       bookObj.category = this.handleMissingInfoError(book.volumeInfo.categories, 'Unknown genre');
       bookObj.rating = this.handleMissingInfoError(book.volumeInfo.averageRating, 'No rating');
-      bookObj.bookImg = this.handleMissingCoverImage(book.volumeInfo) // add stock no image available 
+      bookObj.bookImg = this.handleMissingCoverImage(book.volumeInfo); // add stock no image available 
       bookObj.pageCount = this.handleMissingInfoError(book.volumeInfo.pageCount, 'Unknown page count');
       bookObj.publisher = this.handleMissingInfoError(book.volumeInfo.publisher, 'Unknown publisher');
       bookObj.language = this.handleMissingInfoError(book.volumeInfo.language, 'Unknown language');
       bookObj.description = this.handleMissingInfoError(book.volumeInfo.description, 'No description');
       bookObj.publishedDate = this.handleMissingInfoError(book.volumeInfo.publishedDate, 'Unknown published date');
+      bookObj.searchInput = this.newSearch;
       return bookObj;
   }
 
@@ -66,12 +67,10 @@ class SearchResults extends Component {
   componentDidUpdate() {
     if (this.newSearch !== this.props.match.params.search) {
       this.newSearch = this.props.match.params.search;
+      this.books = [];
       this.apiCall(this.newSearch);
     }
-    console.log('start index', this.state.startIndex)
-    console.log('max start index', this.maxStartIndexOfDisplayedResults)
     if (this.state.next && this.state.startIndex > this.maxStartIndexOfDisplayedResults) {
-      console.log('api call')
       if (this.state.startIndex > this.maxStartIndexOfDisplayedResults) {
         this.maxStartIndexOfDisplayedResults = this.state.startIndex;
       }
@@ -82,20 +81,11 @@ class SearchResults extends Component {
     }
   }
 
-  handleSaveBook = (bookObject) => {
+  handleButtonClick = (bookObject, saved) => {
     const bookAndCompleted = {
       book: bookObject,
       completed: false,
-      saved: true
-    }
-    this.dbRef.push(bookAndCompleted);
-  }
-
-  handleMoreDetails = (bookObject) => {
-    const bookAndCompleted = {
-      book: bookObject,
-      completed: false,
-      saved: false
+      saved: saved
     }
     this.dbRef.push(bookAndCompleted);
   }
@@ -171,10 +161,10 @@ class SearchResults extends Component {
           <h4>Rating: {book.rating}</h4>
         </div>
         <div className="buttonContainer">
-          <Link to={`/search/moredetails/${book.title}`}>
-          <button onClick={() => { this.handleMoreDetails(book) }}><i className='fas fa-info-circle'></i>  More Details</button>
+          <Link to={`/moredetails/${book.title}`}>
+          <button onClick={() => { this.handleButtonClick(book, false) }}><i className='fas fa-info-circle'></i>  More Details</button>
           </Link>
-          <button onClick={() => { this.handleSaveBook(book) }}><i className='fas fa-plus'></i>  Add to my bookshelf</button>
+          <button onClick={() => { this.handleButtonClick(book, true) }}><i className='fas fa-plus'></i>  Add to my bookshelf</button>
         </div>
       </div>
     );

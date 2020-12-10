@@ -112,7 +112,10 @@ class Bookshelf extends Component {
   renderBookDisplay = (numOfBooks) => {
     return (
       <Fragment>
-        <button className="gridDisplayButton" onClick={() => this.toggleDisplay()}><i className="fas fa-grip-horizontal"></i></button>
+        <div className="dashboardContainer">
+          <button className="gridDisplayButton" onClick={() => this.toggleDisplay()}><i className="fas fa-grip-horizontal"></i></button>
+          <h3>{`${this.completedCalculation()}% Reading Completed!`}</h3>
+        </div>
         {
           this.state.gridDisplay
             ? this.renderGridDisplay()
@@ -207,8 +210,8 @@ class Bookshelf extends Component {
       )
       {completedBook++}
     })
-    const completionPercentage = (completedBook * 100) / this.state.savedBooks.length;
-    // console.log(completionPercentage);
+    let completionPercentage = (completedBook * 100) / this.state.savedBooks.length;
+    completionPercentage = Math.ceil(completionPercentage);
     return completionPercentage; 
   }
 

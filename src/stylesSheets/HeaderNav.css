@@ -37,8 +37,8 @@ header {
 .logo {
   text-decoration: none;
   text-transform: uppercase;
-  /* padding-left: 25px; */
   position: relative;
+  /* padding-left: 25px; */
   left: 70px;
 }
 
@@ -82,8 +82,9 @@ button:focus {
 
 .titleFormContainer {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 25px;
+  width: 63%;
 }
 
 form {

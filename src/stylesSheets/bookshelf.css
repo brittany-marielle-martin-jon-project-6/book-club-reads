@@ -69,13 +69,18 @@
 } */
 
 
-
-
-.gridDisplayButton {
+.dashboardContainer {
+  display: flex;
   position: absolute;
   top: -30px;
   right: 0;
   height: 30px;
+  width: 100%;
+  justify-content: space-between;
+  padding-right: 25px;
+}
+
+.gridDisplayButton {
   width: 60px;
   border: none;
   background-color: #fff;

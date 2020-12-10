@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/book-club-reads/static/css/main.d15a80e1.chunk.css",
-    "main.js": "/book-club-reads/static/js/main.545cf8db.chunk.js",
-    "main.js.map": "/book-club-reads/static/js/main.545cf8db.chunk.js.map",
-    "runtime-main.js": "/book-club-reads/static/js/runtime-main.39b71c08.js",
-    "runtime-main.js.map": "/book-club-reads/static/js/runtime-main.39b71c08.js.map",
-    "static/js/2.f5dff1a3.chunk.js": "/book-club-reads/static/js/2.f5dff1a3.chunk.js",
-    "static/js/2.f5dff1a3.chunk.js.map": "/book-club-reads/static/js/2.f5dff1a3.chunk.js.map",
-    "static/js/3.f0d2f338.chunk.js": "/book-club-reads/static/js/3.f0d2f338.chunk.js",
-    "static/js/3.f0d2f338.chunk.js.map": "/book-club-reads/static/js/3.f0d2f338.chunk.js.map",
-    "index.html": "/book-club-reads/index.html",
-    "static/css/main.d15a80e1.chunk.css.map": "/book-club-reads/static/css/main.d15a80e1.chunk.css.map",
-    "static/js/2.f5dff1a3.chunk.js.LICENSE.txt": "/book-club-reads/static/js/2.f5dff1a3.chunk.js.LICENSE.txt",
-    "static/media/noCover.fea3d7c6.jpg": "/book-club-reads/static/media/noCover.fea3d7c6.jpg",
-    "static/media/App.css": "/book-club-reads/static/media/robert-anasch-McX3XuJRsUM-unsplash.8bdbbee0.jpg"
+    "main.css": "/brittany-marielle-martin-jon-project-6/static/css/main.a81a82ec.chunk.css",
+    "main.js": "/brittany-marielle-martin-jon-project-6/static/js/main.545cf8db.chunk.js",
+    "main.js.map": "/brittany-marielle-martin-jon-project-6/static/js/main.545cf8db.chunk.js.map",
+    "runtime-main.js": "/brittany-marielle-martin-jon-project-6/static/js/runtime-main.9b144edd.js",
+    "runtime-main.js.map": "/brittany-marielle-martin-jon-project-6/static/js/runtime-main.9b144edd.js.map",
+    "static/js/2.bbb1720d.chunk.js": "/brittany-marielle-martin-jon-project-6/static/js/2.bbb1720d.chunk.js",
+    "static/js/2.bbb1720d.chunk.js.map": "/brittany-marielle-martin-jon-project-6/static/js/2.bbb1720d.chunk.js.map",
+    "static/js/3.f0d2f338.chunk.js": "/brittany-marielle-martin-jon-project-6/static/js/3.f0d2f338.chunk.js",
+    "static/js/3.f0d2f338.chunk.js.map": "/brittany-marielle-martin-jon-project-6/static/js/3.f0d2f338.chunk.js.map",
+    "index.html": "/brittany-marielle-martin-jon-project-6/index.html",
+    "static/css/main.a81a82ec.chunk.css.map": "/brittany-marielle-martin-jon-project-6/static/css/main.a81a82ec.chunk.css.map",
+    "static/js/2.bbb1720d.chunk.js.LICENSE.txt": "/brittany-marielle-martin-jon-project-6/static/js/2.bbb1720d.chunk.js.LICENSE.txt",
+    "static/media/noCover.fea3d7c6.jpg": "/brittany-marielle-martin-jon-project-6/static/media/noCover.fea3d7c6.jpg",
+    "static/media/App.css": "/brittany-marielle-martin-jon-project-6/static/media/robert-anasch-McX3XuJRsUM-unsplash.8bdbbee0.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.39b71c08.js",
-    "static/js/2.f5dff1a3.chunk.js",
-    "static/css/main.d15a80e1.chunk.css",
+    "static/js/runtime-main.9b144edd.js",
+    "static/js/2.bbb1720d.chunk.js",
+    "static/css/main.a81a82ec.chunk.css",
     "static/js/main.545cf8db.chunk.js"
   ]
 }

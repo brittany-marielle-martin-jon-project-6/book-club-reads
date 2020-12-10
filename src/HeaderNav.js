@@ -66,10 +66,10 @@ class HeaderNav extends Component {
   renderForm = () => {
     return(
       <Fragment>
-        <Link to="/" className="logo"><h1><i className="fas fa-book-open"></i>Book Club Reads<i className="fas fa-book-open"></i></h1></Link>
-        <form onSubmit={this.handleSubmit} onChange={(event) => this.getSuggestion(event)}>
-          <label htmlFor="searchBook">Search </label>
-          <input autoComplete="off" type='text' id='searchbook' name='searchbook' className='searchBook' placeholder='title, author, genre' value={this.state.userInput} onChange={this.updateUserInput}></input>
+        <Link to="/" className="logo"><h1><i className="fas fa-book-open bookIcon"></i><span className="capitalB">B</span>ook Club Reads</h1></Link>
+        <form className="search-form" onSubmit={this.handleSubmit} onChange={(event) => this.getSuggestion(event)}>
+          <label htmlFor="searchBook srOnly"></label>
+          <input autoComplete="off" type='text' id='searchbook' name='searchbook' className='searchBook' placeholder='search title, author, genre' value={this.state.userInput} onChange={this.updateUserInput}></input>
           {
             this.state.suggestions.map((suggestion, index) => {
               return this.renderSuggestion(suggestion, index);

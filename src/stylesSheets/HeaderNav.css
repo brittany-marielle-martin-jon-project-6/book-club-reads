@@ -10,6 +10,21 @@ header {
   align-items: center;
 }
 
+.capitalB {
+  color: white;
+  font-size: 3.5rem;
+  position: relative;
+  z-index: 33;
+}
+
+.bookIcon {
+  position: absolute;
+  z-index: 0;
+  font-size: 5.5rem;
+  left: -36px;
+  bottom: 10px;
+}
+
 .headerNav li {
   padding: 10px;
 }
@@ -21,6 +36,9 @@ header {
 .logo {
   text-decoration: none;
   text-transform: uppercase;
+  /* padding-left: 25px; */
+  position: relative;
+  left: 70px;
 }
 
 h1 {
@@ -59,4 +77,9 @@ button:focus {
   width: 300px;
   height: 30px;
   padding-left: 10px;
+}
+
+/* Responsive Design */
+.search-form {
+  display: flex;
 }

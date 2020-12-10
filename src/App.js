@@ -14,12 +14,12 @@ class App extends Component {
       <Router>
         <div className="App">
           <HeaderNav />
-          <Route exact path="/project-6" component={LandingPage} />
-          <Route exact path="/project-6/search/:search" component={SearchResults}/>
+          <Route exact path="/book-club-reads/" component={LandingPage} />
+          <Route exact path="/search/:search" component={SearchResults}/>
           {/* <Route path="/search/:search/:page" component={SearchResults}/> */}
-          <Route exact path="/project-6/mybookshelf" component={Bookshelf} />
-          <Route path="/project-6/mybookshelf/:book" component={BookDetails} />
-          <Route path="/project-6/moredetails/:book" component={BookDetails}/>
+          <Route exact path="/mybookshelf" component={Bookshelf} />
+          <Route path="/mybookshelf/:book" component={BookDetails} />
+          <Route path="/moredetails/:book" component={BookDetails}/>
           <Footer />
         </div>
       </Router>

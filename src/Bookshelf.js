@@ -8,6 +8,7 @@ class Bookshelf extends Component {
     this.dbRef = firebase.database().ref();
     this.state = {
       savedBooks: [],
+      windowInnerWidth: 1280,
       indexOfDisplayedBook: 0,
       gridDisplay: false
     }
@@ -31,8 +32,17 @@ class Bookshelf extends Component {
     });
   }
 
+  addWindowEventListener = () => {
+    window.addEventListener('resize', () => {
+      this.setState({
+        windowInnerWidth: window.innerWidth
+      })
+    });
+  }
+
   componentDidMount() {
     this.updateFirebase();
+    this.addWindowEventListener();
   }
 
   handleRemoveBook = (bookId) => {
@@ -92,26 +102,17 @@ class Bookshelf extends Component {
     )
   }
 
-  toggleDisplay = (grid) => {
-    if (grid) {
+  toggleDisplay = () => {
       this.setState({
-        gridDisplay: true
+        gridDisplay: !this.state.gridDisplay
       })
-    } else {
-      this.setState({
-        gridDisplay: false
-      })
-    }
   }
   
   // Render the books on the screen
   renderBookDisplay = (numOfBooks) => {
     return (
       <Fragment>
-        <div>
-          <button onClick={() => this.toggleDisplay(true)}>Grid</button>
-          <button onClick={() => this.toggleDisplay(false)}>Carousel</button>
-        </div>
+        <button className="gridDisplayButton" onClick={() => this.toggleDisplay()}><i className="fas fa-grip-horizontal"></i></button>
         {
           this.state.gridDisplay
             ? this.renderGridDisplay()
@@ -211,13 +212,27 @@ class Bookshelf extends Component {
     return completionPercentage; 
   }
 
+  getNumOfBooksToDisplayOnCarousel = () => {
+    if (this.state.windowInnerWidth > 1250) {
+      return 9;
+    } else if (this.state.windowInnerWidth > 900) {
+      return 5;
+    } else if (this.state.windowInnerWidth > 800) {
+      return 3;
+    } else {
+      return 1;
+    }
+  }
+
+
   render() {
-    this.completedCalculation();
+    let className;
+    this.state.gridDisplay ? className = 'gridBookshelf' : className = "carouselBookshelf";
     return (
-      <div className="bookshelf">
+      <div className={className}>
         {
           this.state.savedBooks.length
-            ? this.renderBookDisplay(9)
+            ? this.renderBookDisplay(this.getNumOfBooksToDisplayOnCarousel())
             : this.renderErrorMessage()
         }
       </div>

@@ -65,7 +65,7 @@ class HeaderNav extends Component {
   renderForm = () => {
     return(
       <div className="titleFormContainer">
-        <Link to="/book-club-reads/" className="logo">
+        <Link to="/" className="logo">
           <h1><i className="fas fa-book-open bookIcon"></i><span className="capitalB">B</span>ook Club Reads</h1>
         </Link>
         <form onSubmit={this.handleSubmit} onChange={(event) => this.getSuggestion(event)}>

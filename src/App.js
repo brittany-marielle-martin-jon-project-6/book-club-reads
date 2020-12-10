@@ -14,7 +14,7 @@ class App extends Component {
       <Router>
         <div className="App">
           <HeaderNav />
-          <Route exact path="/book-club-reads/" component={LandingPage} />
+          <Route exact path="/" component={LandingPage} />
           <Route exact path="/search/:search" component={SearchResults}/>
           {/* <Route path="/search/:search/:page" component={SearchResults}/> */}
           <Route exact path="/mybookshelf" component={Bookshelf} />

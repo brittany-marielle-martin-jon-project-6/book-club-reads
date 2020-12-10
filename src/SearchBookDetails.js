@@ -1,8 +1,8 @@
 import { Component } from 'react';
-import { Link } from 'react-router-dom';
 import firebase from 'firebase';
+import { Link } from 'react-router-dom';
 
-class BookDetails extends Component {
+class SearchBookDetails extends Component {
     constructor() {
         super();
         this.dbRef = firebase.database().ref();
@@ -54,7 +54,7 @@ class BookDetails extends Component {
     }
 
     renderButton = () => {
-        return(
+        return (
             this.state.removed
                 ? <button onClick={() => this.handleAddBook(this.state.bookToDisplay)} className='addBook'>Add to bookshelf</button>
                 : <button onClick={() => this.handleRemoveBook(this.state.firebaseIdOfDisplayedBook)} className='removeBook'>Remove book</button>
@@ -81,7 +81,7 @@ class BookDetails extends Component {
                 {
                     this.renderButton()
                 }
-                <input checked={this.state.completed} onChange={() => this.handleCheckbox()} type="checkbox" name="completed" id="completed"/>
+                <input checked={this.state.completed} onChange={() => this.handleCheckbox()} type="checkbox" name="completed" id="completed" />
                 <label htmlFor="completed">Completed</label>
 
             </div>
@@ -93,17 +93,17 @@ class BookDetails extends Component {
             completed: !this.state.completed
         })
     }
-    
+
     componentDidUpdate() {
-        this.dbRef.child(this.state.firebaseIdOfDisplayedBook).update({completed: this.state.completed});
+        this.dbRef.child(this.state.firebaseIdOfDisplayedBook).update({ completed: this.state.completed });
     }
 
     render() {
         console.log(this.props)
-        return(
+        return (
             this.renderInformation(this.state.bookToDisplay)
         )
     }
 }
 
-export default BookDetails;
+export default SearchBookDetails;

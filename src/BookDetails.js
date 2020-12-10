@@ -79,9 +79,10 @@ class BookDetails extends Component {
     renderCheckbox = () => {
         return(
             this.state.saved
-                ?   <div>
+                ?   <div className="checkbox">
+                        <i className="fas fa-award"></i>
                         <input checked={this.state.completed} onChange={() => this.handleCheckbox()} type="checkbox" name="completed" id="completed"/>
-                        <label htmlFor="completed">Completed</label>
+                        <label htmlFor="completed">Completed Reading</label>
                     </div>
                 :   null
         )
@@ -109,12 +110,14 @@ class BookDetails extends Component {
                     <img src={book.bookImg} alt={`Book cover for ${book.title}`} />
                 </div>
                 <div className="description">
-                    <h2>{book.title}</h2>
-                    <h3>By: {book.authors} | Genre: {book.category}</h3>
-                    <h4>Reader rating: {book.rating}</h4>
-                    <h4>Published by: {book.publisher} on: {book.publishedDate}</h4>
-                    <h4 className="lastRow">Page count: {book.pageCount} | Language: {book.language}</h4>
-                    <h4>{book.description}</h4>
+                    <h2 className="bold">{book.title}</h2>
+                    
+                    <h3>By: <span>{book.authors}</span>  | Genre: <span>{book.category}</span></h3>
+                    <h4><i className="fas fa-star"></i> : <span>{book.rating}</span></h4>
+                    <h4>Published by: <span>{book.publisher}</span> on: <span>{book.publishedDate}</span></h4>
+                    <h4 className="lastRow ">Page count:<span>{book.pageCount}</span> | Language: <span>{book.language}</span></h4>
+                    <h4><span>{book.description}</span></h4>
+
                 </div>
                 {
                     this.renderButton()

@@ -133,7 +133,7 @@ class Bookshelf extends Component {
               const key = book[2];
               const bookTitle = book[0].title;
               return (
-                <div className="displayedBook">
+                <div key={key} className="displayedBook">
                   <Link to={`/mybookshelf/${bookTitle}`}>
                     <img src={bookImageUrl} alt={altText} />
                   </Link>

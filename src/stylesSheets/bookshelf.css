@@ -69,16 +69,21 @@
 } */
 
 
-
-
-.gridDisplayButton {
+.dashboardContainer {
+  display: flex;
   position: absolute;
   top: -30px;
   right: 0;
   height: 30px;
+  width: 100%;
+  justify-content: space-between;
+  padding-right: 25px;
+}
+
+.gridDisplayButton {
   width: 60px;
   border: none;
-  background-color: #fff;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .gridDisplayButton i {
@@ -132,4 +137,12 @@
     width: 100vw;
     height: 80vh;
     background-color: rgba(255, 255, 255, 0.595);
+}
+
+/* Media Queries */
+@media (max-width: 841px) {
+  .dashboardContainer {
+    top: 30px;
+    padding-right: 0;
+  }
 }

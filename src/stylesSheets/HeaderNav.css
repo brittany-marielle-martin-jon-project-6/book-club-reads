@@ -37,9 +37,9 @@ header {
 .logo {
   text-decoration: none;
   text-transform: uppercase;
-  /* padding-left: 25px; */
   position: relative;
-  left: 70px;
+  /* padding-left: 25px; */
+  left: 30px;
 }
 
 h1 {
@@ -82,8 +82,9 @@ button:focus {
 
 .titleFormContainer {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 25px;
+  width: 70%;
 }
 
 form {
@@ -133,6 +134,7 @@ input[type="radio"]:focus ~ label {
   .titleFormContainer {
     flex-direction: column;
     gap: 0;
+    width: 100%;
   }
   .headerNav {
     height: 10vh;
@@ -143,6 +145,9 @@ input[type="radio"]:focus ~ label {
   .iconContainer i {
     margin: 0 15px;
   }
+  .logo {
+    left: 20px;
+  }
 }
 
 @media (max-width: 570px){
@@ -152,6 +157,15 @@ input[type="radio"]:focus ~ label {
   .iconContainer {
     right: calc(50% - 114px);
   }
+
+  .searchBook {
+    width: 200px;
+  }
+
+  footer {
+    font-size: 1.5rem;
+  }
+
 }
 /* Responsive Design */
 .search-form {

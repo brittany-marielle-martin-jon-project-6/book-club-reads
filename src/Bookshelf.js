@@ -20,7 +20,10 @@ class Bookshelf extends Component {
       for (let bookKey in firebaseBookObj) {
         const eachBook = firebaseBookObj[bookKey].book;
         const finishedReading = firebaseBookObj[bookKey].completed;
-        bookArray.push([eachBook, finishedReading, bookKey]);
+        const saved = firebaseBookObj[bookKey].saved;
+        if (saved) {
+          bookArray.push([eachBook, finishedReading, bookKey]);
+        }
       }
       this.setState({
         savedBooks: bookArray
@@ -153,7 +156,7 @@ class Bookshelf extends Component {
       {completedBook++}
     })
     const completionPercentage = (completedBook * 100) / this.state.savedBooks.length;
-    console.log(completionPercentage);
+    // console.log(completionPercentage);
     return completionPercentage; 
   }
 

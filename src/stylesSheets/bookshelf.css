@@ -46,11 +46,15 @@
   width: 100vw;
   background-color: rgba(255, 255, 255, 0.595);
   padding: 25px 0;
-  min-height: 300px;
+  height: 400px;
+}
+
+.displayedBook img {
+  width: 200px;
 }
 
 .shelvedBooks img {
-  width: 65%;
+  width: 100px;
 }
 
 .shelvedBooks,
@@ -58,8 +62,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
+.addBook,
 .removeBook {
   width: 150px;
   background-color: #1b2456;

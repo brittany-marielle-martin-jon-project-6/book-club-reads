@@ -1,4 +1,5 @@
 {
+  "homepage": "https://www.brittany-marielle-martin-jon-project-6.github.io/book-club-reads",
   "name": "project-6",
   "version": "0.1.0",
   "private": true,
@@ -16,6 +17,8 @@
     "xml2js": "^0.4.23"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

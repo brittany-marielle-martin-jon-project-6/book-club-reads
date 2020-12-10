@@ -6,6 +6,7 @@ import LandingPage from './LandingPage';
 import HeaderNav from './HeaderNav';
 import Bookshelf from './Bookshelf';
 import BookDetails from './BookDetails';
+import SearchBookDetails from './SearchBookDetails';
 import Footer from './Footer';
 
 class App extends Component {
@@ -18,6 +19,7 @@ class App extends Component {
           <Route path="/search/:search" component={SearchResults} />
           <Route exact path="/mybookshelf" component={Bookshelf} />
           <Route path="/mybookshelf/:book" component={BookDetails} />
+          <Route path="/search/moredetails/:book" component={SearchBookDetails}/>
           <Footer />
         </div>
       </Router>

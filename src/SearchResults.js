@@ -2,6 +2,7 @@ import { Component } from 'react';
 import axios from 'axios';
 import noCover from './assets/noCover.jpg';
 import firebase from './firebase.js';
+import { Link } from 'react-router-dom';
 
 class SearchResults extends Component {
   constructor() {
@@ -147,7 +148,9 @@ class SearchResults extends Component {
           <h4>Rating: {book.rating}</h4>
         </div>
         <div className="buttonContainer">
+          <Link to={`/search/moredetails/${book.title}`}>
           <button><i className='fas fa-info-circle'></i>  More Details</button>
+          </Link>
           <button onClick={() => { this.handleClick(book) }}><i className='fas fa-plus'></i>  Add to my bookshelf</button>
         </div>
       </div>

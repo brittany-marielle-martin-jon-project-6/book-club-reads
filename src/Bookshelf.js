@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import firebase from './firebase.js';
 import { Link } from 'react-router-dom';
+import { logDOM } from '@testing-library/react';
 
 class Bookshelf extends Component {
   constructor() {
@@ -143,7 +144,23 @@ class Bookshelf extends Component {
     )
   }
 
+  completedCalculation = () => {
+    let completedBook = 0;
+    this.state.savedBooks.forEach((book) => {
+      if (
+        book[1]
+      )
+      {completedBook++}
+    })
+    const completionPercentage = (completedBook * 100) / this.state.savedBooks.length;
+    console.log(completionPercentage);
+    return completionPercentage; 
+  }
+
+  
+
   render() {
+    this.completedCalculation();
     return (
       <div className="bookshelf">
         {

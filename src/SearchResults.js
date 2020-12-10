@@ -27,7 +27,8 @@ class SearchResults extends Component {
       params: {
         q: input,
         maxResults: 12,
-        startIndex: this.state.startIndex
+        startIndex: this.state.startIndex,
+        orderBy: 'relevance'
       }
     }).then((results) => {
       const bookResults = results.data.items;

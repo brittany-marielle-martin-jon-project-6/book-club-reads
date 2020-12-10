@@ -69,29 +69,25 @@ class Bookshelf extends Component {
   
   // Function to display individual books  
   displayBook = (key, className, bookImageUrl, altText, bookTitle) => {
-      if (className === 'displayedBook') {
-          return (
-              <section key={key} className={className}>
-                  <div>
-                      <Link to={`/mybookshelf/${bookTitle}`}>
-                        <img src={bookImageUrl} alt={altText} />
-                      </Link>
-                  </div>
-                  <Link to={`/mybookshelf/${bookTitle}`}>
-                    <h3>{bookTitle}</h3>
-                  </Link>
-              </section>
-          )
-      } else {
-          return (
-              <section key={key} className={className}>
-                  <div>
-                      <img src={bookImageUrl} alt={altText} />
-                  </div>
-                  <h3>{bookTitle}</h3>
-              </section>
-          )
-      }
+      return (
+          <div key={key} className={className}>
+              {
+                className === 'displayedBook'
+                  ? this.createLink(bookTitle, () => <img src={bookImageUrl} alt={altText} />)
+                  : <img src={bookImageUrl} alt={altText}/>
+              }
+          </div>
+      )
+  } 
+
+  createLink = (bookTitle, callbackHtml) => {
+    return(
+      <Link to={`/mybookshelf/${bookTitle}`}>
+        {
+          callbackHtml()
+        }
+      </Link>
+    )
   }
   
   // Render the books on the screen

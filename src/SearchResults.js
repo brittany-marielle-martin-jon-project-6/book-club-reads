@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import { Component } from 'react';
 import axios from 'axios';
 import noCover from './assets/noCover.jpg';
 import firebase from './firebase.js';
@@ -116,13 +116,32 @@ class SearchResults extends Component {
     }
   }
 
+  handleLongInfo = (info, maxLength) => {
+    if (info.length > maxLength) {
+      if (info.charAt(maxLength - 1) !== ' ') {
+        const omittedInfo = info.slice(maxLength, info.length);
+        let positionOfNextSpace = omittedInfo.search(' ');
+        if (positionOfNextSpace < 0) {
+          const numOfCharsToEndOfString = info.length - maxLength;
+          if (numOfCharsToEndOfString < 10) {
+            positionOfNextSpace = numOfCharsToEndOfString;
+          }
+        }
+        maxLength += positionOfNextSpace;
+      }
+      info = info.slice(0, maxLength);
+      info += ' ...';
+    }
+    return info;
+  }
+
   // Render relevant information on screen
   renderInformation = (book) => {
     return (
-      <div className="result-box" key={book.id} style={{"background-image": `url(${book.bookImg})`}}>
-        <img src={book.bookImg} alt={`Book cover for ${book.title}`} />
+      <div className="result-box" key={book.id} style={{"backgroundImage": `url(${book.bookImg})`}}>
+        <img src={book.bookImg} alt={`Book cover for ${this.handleLongInfo(book.title, 40)}`} />
         <div className="descriptionContainer">
-          <h2 className="title">{book.title}</h2>
+          <h2 className="title">{this.handleLongInfo(book.title, 50)}</h2>
           <h3>By: {book.authors}</h3>
           <h3>Genre: {book.category}</h3>
           <h4>Rating: {book.rating}</h4>

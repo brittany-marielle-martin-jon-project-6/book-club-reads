@@ -29,6 +29,10 @@ class BookDetails extends Component {
         });
     }
 
+    componentWillUnmount() {
+        this.dbRef.off();
+    }
+
     handleRemoveBook = (bookId) => {
         this.dbRef.child(bookId).remove();
         this.setState({
@@ -57,7 +61,6 @@ class BookDetails extends Component {
 
     renderInformation = (book) => {
         return (
-            
             <div className="detailsFlexContainer container">
                 <Link to="/mybookshelf">
                     <button className="exitButton"><i className="fas fa-times-circle"></i></button>
@@ -80,18 +83,11 @@ class BookDetails extends Component {
         );
     }
 
-    
-
-    componentWillUnmount() {
-        this.dbRef.off();
-    }
-
     render() {
         return(
             this.renderInformation(this.state.bookToDisplay)
         )
     }
-
 }
 
 export default BookDetails;

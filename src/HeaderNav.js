@@ -57,7 +57,6 @@ class HeaderNav extends Component {
       <nav>
         <ul className="headerNav">
           <li><Link to="/" className="navLinks">Browse</Link></li>
-          <li><Link to="/connect" className="navLinks">Connect</Link></li>
           <li><Link to="/mybookshelf" className="navLinks">My Bookshelf</Link></li>
         </ul>
       </nav>
@@ -65,29 +64,33 @@ class HeaderNav extends Component {
   }
   renderForm = () => {
     return(
-      <Fragment>
-        <Link to="/" className="logo"><h1><i className="fas fa-book-open"></i>Book Club Reads<i className="fas fa-book-open"></i></h1></Link>
+      <div className="titleFormContainer">
+        <Link to="/" className="logo">
+          <h1><i className="fas fa-book-open"></i>Book Club Reads<i className="fas fa-book-open"></i></h1>
+        </Link>
         <form onSubmit={this.handleSubmit} onChange={(event) => this.getSuggestion(event)}>
-          <label htmlFor="searchBook">Search </label>
+          <label htmlFor="searchBook" className="srOnly">Search </label>
           <input autoComplete="off" type='text' id='searchbook' name='searchbook' className='searchBook' placeholder='title, author, genre' value={this.state.userInput} onChange={this.updateUserInput}></input>
-          {
-            this.state.suggestions.map((suggestion, index) => {
-              return this.renderSuggestion(suggestion, index);
-            })
-          }
+          <div className="suggestionContainer">
+            {
+              this.state.suggestions.map((suggestion, index) => {
+                return this.renderSuggestion(suggestion, index);
+              })
+            }
+          </div>
           <Link to={`/search/${this.state.userInput}`}>
             <button className='searchButton'><i className="fas fa-search"></i></button>
           </Link>
         </form>
-      </Fragment>
+      </div>
     )
   }
   renderSuggestion = (titleSuggestion, index) => {
     titleSuggestion = this.handleLongInfo(titleSuggestion, 25);
     return(
-      <div key={index}>
-        <label htmlFor={`suggestion-${index}`}>{titleSuggestion}</label>
+      <div key={index} className="individualSuggestion">
         <input type="radio" name="suggestion" value={titleSuggestion} id={`suggestion-${index}`}/>
+        <label htmlFor={`suggestion-${index}`}>{titleSuggestion}</label>
       </div>
     )
   }

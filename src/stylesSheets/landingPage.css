@@ -9,14 +9,38 @@
   margin: 0;
   color: #fff;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
   text-align: center;
-  
+  position: relative;
+}
+
+.iconContainer {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+}
+
+.landingPage i {
+  font-size: 3rem;
+  color: #fff;
+  margin: 15px 0;
 }
 
 
 .landingPage h2 {
   font-family: "Merienda One", cursive;
+  font-size: 3rem;
+  width: 100%;
+}
+
+@media (max-width: 570px) {
+  .landingPage h2 {
+    font-size: 2.2rem;
+    line-height: 5rem;
+    width: 60%;
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -42,8 +42,8 @@ class HeaderNav extends Component {
   }
   updateUserInput = (e) => {
     const userSearch = e.target.value;
-    if (userSearch) { 
-      this.newInput = true; 
+    if (userSearch) {
+      this.newInput = true;
     }
     this.setState({
       userInput: userSearch
@@ -52,6 +52,14 @@ class HeaderNav extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
   }
+
+  handleOnClickSubmit = (e) => {
+    console.log(e);
+    this.setState({
+      userInput: ''
+    })
+  }
+
   renderNav = () => {
     return (
       <nav>
@@ -63,23 +71,25 @@ class HeaderNav extends Component {
     )
   }
   renderForm = () => {
-    return(
+    return (
       <div className="titleFormContainer">
         <Link to="/" className="logo">
           <h1><i className="fas fa-book-open bookIcon"></i><span className="capitalB">B</span>ook Club Reads</h1>
         </Link>
-        <form onSubmit={this.handleSubmit} onChange={(event) => this.getSuggestion(event)}>
+        <form onSubmit={(e) => this.handleSubmit(e)} onChange={(event) => this.getSuggestion(event)}>
           <label htmlFor="searchBook" className="srOnly">Search </label>
           <input autoComplete="off" type='text' id='searchbook' name='searchbook' className='searchBook' placeholder='title, author, genre' value={this.state.userInput} onChange={this.updateUserInput}></input>
           <div className="suggestionContainer">
             {
-              this.state.suggestions.map((suggestion, index) => {
-                return this.renderSuggestion(suggestion, index);
-              })
+              this.state.userInput
+                ? this.state.suggestions.map((suggestion, index) => {
+                  return this.renderSuggestion(suggestion, index);
+                })
+                : null
             }
           </div>
           <Link to={`/search/${this.state.userInput}`}>
-            <button className='searchButton'><i className="fas fa-search"></i></button>
+            <button className='searchButton' onClick={(e) => { this.handleOnClickSubmit(e) }}><i className="fas fa-search"></i></button>
           </Link>
         </form>
       </div>
@@ -87,9 +97,10 @@ class HeaderNav extends Component {
   }
   renderSuggestion = (titleSuggestion, index) => {
     titleSuggestion = this.handleLongInfo(titleSuggestion, 25);
-    return(
+
+    return (
       <div key={index} className="individualSuggestion">
-        <input type="radio" name="suggestion" value={titleSuggestion} id={`suggestion-${index}`}/>
+        <input type="radio" name="suggestion" value={titleSuggestion} id={`suggestion-${index}`} />
         <label htmlFor={`suggestion-${index}`}>{titleSuggestion}</label>
       </div>
     )

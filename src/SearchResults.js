@@ -44,20 +44,20 @@ class SearchResults extends Component {
   }
 
   createBookObj = (book) => {
-      const bookObj = {};
-      bookObj.id = book.id;
-      bookObj.title = this.handleMissingInfoError(book.volumeInfo.title, 'Unknown title');
-      bookObj.authors = this.handleMissingInfoError(book.volumeInfo.authors, 'Unknown author');
-      bookObj.category = this.handleMissingInfoError(book.volumeInfo.categories, 'Unknown genre');
-      bookObj.rating = this.handleMissingInfoError(book.volumeInfo.averageRating, 'No rating');
-      bookObj.bookImg = this.handleMissingCoverImage(book.volumeInfo); // add stock no image available 
-      bookObj.pageCount = this.handleMissingInfoError(book.volumeInfo.pageCount, 'Unknown page count');
-      bookObj.publisher = this.handleMissingInfoError(book.volumeInfo.publisher, 'Unknown publisher');
-      bookObj.language = this.handleMissingInfoError(book.volumeInfo.language, 'Unknown language');
-      bookObj.description = this.handleMissingInfoError(book.volumeInfo.description, 'No description');
-      bookObj.publishedDate = this.handleMissingInfoError(book.volumeInfo.publishedDate, 'Unknown published date');
-      bookObj.searchInput = this.newSearch;
-      return bookObj;
+    const bookObj = {};
+    bookObj.id = book.id;
+    bookObj.title = this.handleMissingInfoError(book.volumeInfo.title, 'Unknown title');
+    bookObj.authors = this.handleMissingInfoError(book.volumeInfo.authors, 'Unknown author');
+    bookObj.category = this.handleMissingInfoError(book.volumeInfo.categories, 'Unknown genre');
+    bookObj.rating = this.handleMissingInfoError(book.volumeInfo.averageRating, 'No rating');
+    bookObj.bookImg = this.handleMissingCoverImage(book.volumeInfo); // add stock no image available 
+    bookObj.pageCount = this.handleMissingInfoError(book.volumeInfo.pageCount, 'Unknown page count');
+    bookObj.publisher = this.handleMissingInfoError(book.volumeInfo.publisher, 'Unknown publisher');
+    bookObj.language = this.handleMissingInfoError(book.volumeInfo.language, 'Unknown language');
+    bookObj.description = this.handleMissingInfoError(book.volumeInfo.description, 'No description');
+    bookObj.publishedDate = this.handleMissingInfoError(book.volumeInfo.publishedDate, 'Unknown published date');
+    bookObj.searchInput = this.newSearch;
+    return bookObj;
   }
 
   componentDidMount() {
@@ -153,7 +153,7 @@ class SearchResults extends Component {
   // Render relevant information on screen
   renderInformation = (book) => {
     return (
-      <div className="result-box" key={book.id} style={{"backgroundImage": `url(${book.bookImg})`}}>
+      <div className="result-box" key={book.id} style={{ "backgroundImage": `url(${book.bookImg})` }}>
         <img src={book.bookImg} alt={`Book cover for ${this.handleLongInfo(book.title, 40)}`} />
         <div className="descriptionContainer">
           <h2 className="title">{this.handleLongInfo(book.title, 50)}</h2>
@@ -163,7 +163,7 @@ class SearchResults extends Component {
         </div>
         <div className="buttonContainer">
           <Link to={`/moredetails/${book.title}`}>
-          <button onClick={() => { this.handleButtonClick(book, false) }}><i className='fas fa-info-circle'></i>  More Details</button>
+            <button onClick={() => { this.handleButtonClick(book, false) }}><i className='fas fa-info-circle'></i>  More Details</button>
           </Link>
           <button onClick={() => { this.handleButtonClick(book, true) }}><i className='fas fa-plus'></i>  Add to my bookshelf</button>
         </div>
@@ -199,10 +199,10 @@ class SearchResults extends Component {
   }
 
   renderPaginationButtons = () => {
-    return(
-      <div>
-        <button onClick={this.handlePreviousPage}>Previous</button>
-        <button onClick={this.handleNextPage}>Next</button>
+    return (
+      <div className="paginationButtonContainer">
+        <button onClick={this.handlePreviousPage}>Previous results</button>
+        <button onClick={this.handleNextPage}>More results</button>
       </div>
     )
   }

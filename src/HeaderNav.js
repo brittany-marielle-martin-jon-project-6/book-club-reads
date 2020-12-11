@@ -70,10 +70,6 @@ class HeaderNav extends Component {
     })
   }
 
-  handleKeyPress = (e) => {
-    console.log(e.keyCode);
-  }
-
   renderNav = () => {
     return (
       <nav>
@@ -90,7 +86,7 @@ class HeaderNav extends Component {
         <Link to="/" className="logo">
           <h1><i className="fas fa-book-open bookIcon"></i><span className="capitalB">B</span>ook Club Reads</h1>
         </Link>
-        <form onSubmit={(e) => this.handleSubmit(e)} onChange={(event) => this.getSuggestion(event)} onKeyPress={(e) => this.handleKeyPress(e)}>
+        <form onSubmit={(e) => this.handleSubmit(e)} onChange={(event) => this.getSuggestion(event)}>
           <label htmlFor="searchBook" className="srOnly">Search </label>
           <input autoComplete="off" type='text' id='searchbook' name='searchbook' className='searchBook' placeholder='title, author, genre' value={this.state.userInput} onChange={this.updateUserInput}></input>
           <div className="suggestionContainer">
@@ -114,7 +110,7 @@ class HeaderNav extends Component {
 
     return (
       <div key={index} className="individualSuggestion" >
-        <Link to={`/search/${titleSuggestion}`} onKeyPress={(e) => this.handleSuggestionDropDown(e)}>
+        <Link className="dropDownLink" to={`/search/${titleSuggestion}`} onKeyPress={(e) => this.handleSuggestionDropDown(e)}>
           <p onClick={(e) => this.handleSuggestionDropDown(e)} >{titleSuggestion}</p>
         </Link>
       </div>

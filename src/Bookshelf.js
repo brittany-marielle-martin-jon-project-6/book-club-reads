@@ -8,7 +8,7 @@ class Bookshelf extends Component {
     this.dbRef = firebase.database().ref();
     this.state = {
       savedBooks: [],
-      windowInnerWidth: 1280,
+      windowInnerWidth: 900,
       indexOfDisplayedBook: 0,
       gridDisplay: false
     }
@@ -43,6 +43,9 @@ class Bookshelf extends Component {
   componentDidMount() {
     this.updateFirebase();
     this.addWindowEventListener();
+    this.setState({
+      windowInnerWidth: window.innerWidth
+    })
   }
 
   handleRemoveBook = (bookId) => {

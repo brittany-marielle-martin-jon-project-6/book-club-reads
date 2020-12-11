@@ -1,6 +1,6 @@
 const english = {
     symbol: "en",
-    title: "Create the reading list of your dreams and track your progress!",
+    tagline: "Create the reading list of your dreams and track your progress!",
     placeholder: "title, author, genre",
     browse: "browse",
     myBookshelf: "my bookshelf",
@@ -17,7 +17,7 @@ const english = {
 
 const français = {
     symbol: "fr",
-    title: "Créez la bibliothèque de vos rêves et suivez vos progrès!",
+    tagline: "Créez la bibliothèque de vos rêves et suivez vos progrès!",
     placeholder: "titre, auteur(e), genre",
     browse: "rechercher",
     myBookshelf: "ma bibliothèque",

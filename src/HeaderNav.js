@@ -13,6 +13,11 @@ class HeaderNav extends Component {
       language: français
     }
   }
+  componentDidMount() {
+    this.setState({
+      userInput: ''
+    })
+  }
   apiCall = (input) => {
     axios({
       url: 'https://www.googleapis.com/books/v1/volumes',
@@ -45,8 +50,8 @@ class HeaderNav extends Component {
   }
   updateUserInput = (e) => {
     const userSearch = e.target.value;
-    if (userSearch) { 
-      this.newInput = true; 
+    if (userSearch) {
+      this.newInput = true;
     }
     this.setState({
       userInput: userSearch
@@ -61,37 +66,53 @@ class HeaderNav extends Component {
       language: language
     });
   }
-  getLanguage = () => {
-    return this.state.language.symbol;
+
+  handleOnClickSubmit = () => {
+    this.setState({
+      userInput: ''
+    })
   }
+
+  handleSuggestionDropDown = () => {
+    this.setState({
+      userInput: ''
+    })
+  }
+
+  handleKeyPress = (e) => {
+    console.log(e.keyCode);
+  }
+
   renderNav = () => {
     return (
       <nav>
         <ul className="headerNav">
-          <li><Link to={`/${this.getLanguage()}`} className="navLinks">{this.state.language.browse}</Link></li>
-          <li><Link to={`/mybookshelf/${this.getLanguage()}`} className="navLinks">{this.state.language.myBookshelf}</Link></li>
+          <li><Link to="/" className="navLinks">{this.state.language.browse}</Link></li>
+          <li><Link to="/mybookself" className="navLinks">{this.state.language.myBookshelf}</Link></li>
         </ul>
       </nav>
     )
   }
   renderForm = () => {
-    return(
+    return (
       <div className="titleFormContainer">
-        <Link to={`/${this.getLanguage()}`} className="logo">
-          <h1><i className="fas fa-book-open"></i>Book Club Reads<i className="fas fa-book-open"></i></h1>
+        <Link to="/" className="logo">
+          <h1><i className="fas fa-book-open bookIcon"></i><span className="capitalB">B</span>ook Club Reads</h1>
         </Link>
-        <form onSubmit={this.handleSubmit} onChange={(event) => this.getSuggestion(event)}>
+        <form onSubmit={(e) => this.handleSubmit(e)} onChange={(event) => this.getSuggestion(event)} onKeyPress={(e) => this.handleKeyPress(e)}>
           <label htmlFor="searchBook" className="srOnly">Search </label>
           <input autoComplete="off" type='text' id='searchbook' name='searchbook' className='searchBook' placeholder={this.state.language.placeholder} value={this.state.userInput} onChange={this.updateUserInput}></input>
           <div className="suggestionContainer">
             {
-              this.state.suggestions.map((suggestion, index) => {
-                return this.renderSuggestion(suggestion, index);
-              })
+              this.state.userInput
+                ? this.state.suggestions.map((suggestion, index) => {
+                  return this.renderSuggestion(suggestion, index);
+                })
+                : null
             }
           </div>
-          <Link to={`/search/${this.state.userInput}/${this.getLanguage()}`}>
-            <button className='searchButton'><i className="fas fa-search"></i></button>
+          <Link to={`/search/${this.state.userInput}`}>
+            <button className='searchButton' onClick={() => { this.handleOnClickSubmit() }}><i className="fas fa-search"></i></button>
           </Link>
         </form>
         <div className="languageContainer">
@@ -103,10 +124,12 @@ class HeaderNav extends Component {
   }
   renderSuggestion = (titleSuggestion, index) => {
     titleSuggestion = this.handleLongInfo(titleSuggestion, 25);
-    return(
-      <div key={index} className="individualSuggestion">
-        <input type="radio" name="suggestion" value={titleSuggestion} id={`suggestion-${index}`}/>
-        <label htmlFor={`suggestion-${index}`}>{titleSuggestion}</label>
+
+    return (
+      <div key={index} className="individualSuggestion" >
+        <Link to={`/search/${titleSuggestion}`} onKeyPress={(e) => this.handleSuggestionDropDown(e)}>
+          <p onClick={(e) => this.handleSuggestionDropDown(e)} >{titleSuggestion}</p>
+        </Link>
       </div>
     )
   }

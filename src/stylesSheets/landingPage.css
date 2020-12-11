@@ -34,7 +34,7 @@
 .landingPage h2 {
   font-family: "Merienda One", cursive;
   font-size: 3rem;
-  width: 100%;
+  width: 80%;
 }
 
 @media (max-width: 570px) {

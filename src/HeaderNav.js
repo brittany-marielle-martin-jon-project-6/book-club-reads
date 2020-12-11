@@ -11,6 +11,11 @@ class HeaderNav extends Component {
       userInput: ''
     }
   }
+  componentDidMount() {
+    this.setState({
+      userInput: ''
+    })
+  }
   apiCall = (input) => {
     axios({
       url: 'https://www.googleapis.com/books/v1/volumes',
@@ -53,11 +58,20 @@ class HeaderNav extends Component {
     e.preventDefault();
   }
 
-  handleOnClickSubmit = (e) => {
-    console.log(e);
+  handleOnClickSubmit = () => {
     this.setState({
       userInput: ''
     })
+  }
+
+  handleSuggestionDropDown = () => {
+    this.setState({
+      userInput: ''
+    })
+  }
+
+  handleKeyPress = (e) => {
+    console.log(e.keyCode);
   }
 
   renderNav = () => {
@@ -76,7 +90,7 @@ class HeaderNav extends Component {
         <Link to="/" className="logo">
           <h1><i className="fas fa-book-open bookIcon"></i><span className="capitalB">B</span>ook Club Reads</h1>
         </Link>
-        <form onSubmit={(e) => this.handleSubmit(e)} onChange={(event) => this.getSuggestion(event)}>
+        <form onSubmit={(e) => this.handleSubmit(e)} onChange={(event) => this.getSuggestion(event)} onKeyPress={(e) => this.handleKeyPress(e)}>
           <label htmlFor="searchBook" className="srOnly">Search </label>
           <input autoComplete="off" type='text' id='searchbook' name='searchbook' className='searchBook' placeholder='title, author, genre' value={this.state.userInput} onChange={this.updateUserInput}></input>
           <div className="suggestionContainer">
@@ -89,7 +103,7 @@ class HeaderNav extends Component {
             }
           </div>
           <Link to={`/search/${this.state.userInput}`}>
-            <button className='searchButton' onClick={(e) => { this.handleOnClickSubmit(e) }}><i className="fas fa-search"></i></button>
+            <button className='searchButton' onClick={() => { this.handleOnClickSubmit() }}><i className="fas fa-search"></i></button>
           </Link>
         </form>
       </div>
@@ -99,9 +113,10 @@ class HeaderNav extends Component {
     titleSuggestion = this.handleLongInfo(titleSuggestion, 25);
 
     return (
-      <div key={index} className="individualSuggestion">
-        <input type="radio" name="suggestion" value={titleSuggestion} id={`suggestion-${index}`} />
-        <label htmlFor={`suggestion-${index}`}>{titleSuggestion}</label>
+      <div key={index} className="individualSuggestion" >
+        <Link to={`/search/${titleSuggestion}`} onKeyPress={(e) => this.handleSuggestionDropDown(e)}>
+          <p onClick={(e) => this.handleSuggestionDropDown(e)} >{titleSuggestion}</p>
+        </Link>
       </div>
     )
   }

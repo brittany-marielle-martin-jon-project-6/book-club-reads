@@ -31,13 +31,23 @@ header {
 
 .navLinks {
   text-decoration: none;
+  color: #1b2456;
+  font-weight: 700;
+  padding: 10px;
+  border-radius: 10px;
+  display: block;
+}
+
+.navLinks:hover,
+.navLinks:focus {
+  background-color: #1b2456;
+  color: white;
 }
 
 .logo {
   text-decoration: none;
   text-transform: uppercase;
   position: relative;
-  /* padding-left: 25px; */
   left: 30px;
 }
 
@@ -114,12 +124,35 @@ form {
   display: inline-block;
 }
 
-input[type="radio"] {
-  appearance: none;
+.individualSuggestion p {
+  background-color: whitesmoke;
+  padding: 10px;
+  color: #1b2456;
 }
 
-input[type="radio"]:focus ~ label {
+.individualSuggestion p:hover,
+.individualSuggestion p:focus {
   background-color: #c8e0fb;
+}
+
+.dropDownLink {
+  width: 100%;
+  display: inline-block;
+}
+
+.dropDownLink:focus {
+  border: 3px solid #1b2456;
+  background-color: #c8e0fb;
+}
+
+.individualSuggestion a {
+  text-decoration: none;
+}
+
+.languageContainer {
+  position: fixed;
+  top: 0;
+  right: 0;
 }
 
 @media (max-width: 1067px) {
@@ -176,7 +209,7 @@ input[type="radio"]:focus ~ label {
     font-size: 1.5rem;
   }
 }
-/* Responsive Design */
+
 .search-form {
   display: flex;
 }

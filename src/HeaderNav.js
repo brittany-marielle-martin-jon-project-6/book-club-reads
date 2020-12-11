@@ -10,13 +10,38 @@ class HeaderNav extends Component {
     this.state = {
       suggestions: [],
       userInput: '',
-      language: français
+      language: english
     }
   }
+
+  // LANGUAGE PLUGIN
+  toggleLanguage = (language) => {
+    this.props.language(language)
+    this.setState({
+      language: language
+    });
+  }
+  renderLanguageButtons = () => {
+    return (
+      <div className="languageContainer">
+        <button onClick={() => this.toggleLanguage(english)}>EN</button>
+        <button onClick={() => this.toggleLanguage(français)}>FR</button>
+      </div>
+    )
+  }
+
+  // LIFE CYCLE METHOD
   componentDidMount() {
     this.setState({
-      userInput: ''
-    })
+        userInput: ''
+      })
+  }
+  
+  componentDidUpdate() {
+    if (this.newInput) {
+      this.apiCall(this.state.userInput);
+      this.newInput = false;
+    }
   }
   apiCall = (input) => {
     axios({
@@ -41,13 +66,8 @@ class HeaderNav extends Component {
       console.log(error);
     })
   }
-  
-  componentDidUpdate() {
-    if (this.newInput) {
-      this.apiCall(this.state.userInput);
-      this.newInput = false;
-    }
-  }
+
+  // Check for user's new character input for autosuggestion
   updateUserInput = (e) => {
     const userSearch = e.target.value;
     if (userSearch) {
@@ -60,27 +80,19 @@ class HeaderNav extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
   }
-  handleLanguage = (language) => {
-    this.props.language(language);
-    this.setState({
-      language: language
-    });
-  }
 
+  // On submit button being clicked, remove user's input from state
   handleOnClickSubmit = () => {
     this.setState({
       userInput: ''
     })
   }
 
+  // On a suggestion being selected, remove user's input from state
   handleSuggestionDropDown = () => {
     this.setState({
       userInput: ''
     })
-  }
-
-  handleKeyPress = (e) => {
-    console.log(e.keyCode);
   }
 
   renderNav = () => {
@@ -88,7 +100,7 @@ class HeaderNav extends Component {
       <nav>
         <ul className="headerNav">
           <li><Link to="/" className="navLinks">{this.state.language.browse}</Link></li>
-          <li><Link to="/mybookself" className="navLinks">{this.state.language.myBookshelf}</Link></li>
+          <li><Link to="/mybookshelf" className="navLinks">{this.state.language.myBookshelf}</Link></li>
         </ul>
       </nav>
     )
@@ -99,7 +111,7 @@ class HeaderNav extends Component {
         <Link to="/" className="logo">
           <h1><i className="fas fa-book-open bookIcon"></i><span className="capitalB">B</span>ook Club Reads</h1>
         </Link>
-        <form onSubmit={(e) => this.handleSubmit(e)} onChange={(event) => this.getSuggestion(event)} onKeyPress={(e) => this.handleKeyPress(e)}>
+        <form onSubmit={(e) => this.handleSubmit(e)} onChange={(event) => this.getSuggestion(event)}>
           <label htmlFor="searchBook" className="srOnly">Search </label>
           <input autoComplete="off" type='text' id='searchbook' name='searchbook' className='searchBook' placeholder={this.state.language.placeholder} value={this.state.userInput} onChange={this.updateUserInput}></input>
           <div className="suggestionContainer">
@@ -115,19 +127,14 @@ class HeaderNav extends Component {
             <button className='searchButton' onClick={() => { this.handleOnClickSubmit() }}><i className="fas fa-search"></i></button>
           </Link>
         </form>
-        <div className="languageContainer">
-          <button onClick={() => this.handleLanguage(english)}>EN</button>
-          <button onClick={() => this.handleLanguage(français)}>FR</button>
-        </div>
       </div>
     )
   }
   renderSuggestion = (titleSuggestion, index) => {
     titleSuggestion = this.handleLongInfo(titleSuggestion, 25);
-
     return (
       <div key={index} className="individualSuggestion" >
-        <Link to={`/search/${titleSuggestion}`} onKeyPress={(e) => this.handleSuggestionDropDown(e)}>
+        <Link className="dropDownLink" to={`/search/${titleSuggestion}`} onKeyPress={(e) => this.handleSuggestionDropDown(e)}>
           <p onClick={(e) => this.handleSuggestionDropDown(e)} >{titleSuggestion}</p>
         </Link>
       </div>
@@ -139,6 +146,8 @@ class HeaderNav extends Component {
       userInput: suggestion
     })
   }
+
+  // Error handling function to check for and truncate long strings;
   handleLongInfo = (info, maxLength) => {
     if (info.length > maxLength) {
       if (info.charAt(maxLength - 1) !== ' ') {
@@ -166,6 +175,9 @@ class HeaderNav extends Component {
           }
           {
             this.renderNav()
+          }
+          {
+            this.renderLanguageButtons()
           }
         </div>
       </header>

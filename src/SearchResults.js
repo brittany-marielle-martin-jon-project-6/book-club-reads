@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 class SearchResults extends Component {
   constructor() {
     super();
+    this.noResults = false;
     this.newSearch = '';
     this.dbRef = firebase.database().ref();
     this.books = [];
@@ -20,6 +21,7 @@ class SearchResults extends Component {
   }
 
   apiCall = (input) => {
+    this.noResults = false;
     axios({
       url: 'https://www.googleapis.com/books/v1/volumes',
       method: 'GET',
@@ -32,9 +34,13 @@ class SearchResults extends Component {
       }
     }).then((results) => {
       const bookResults = results.data.items;
-      bookResults.forEach((book) => {
-        this.books.push(this.createBookObj(book));
-      });
+      if (bookResults) {
+        bookResults.forEach((book) => {
+          this.books.push(this.createBookObj(book));
+        });
+      } else {
+        this.noResults = true;
+      }
       this.setState({
         books: this.books
       });
@@ -157,15 +163,15 @@ class SearchResults extends Component {
         <img src={book.bookImg} alt={`Book cover for ${this.handleLongInfo(book.title, 40)}`} />
         <div className="descriptionContainer">
           <h2 className="title">{this.handleLongInfo(book.title, 50)}</h2>
-          <h3>By: {book.authors}</h3>
-          <h3>Genre: {book.category}</h3>
-          <h4>Rating: {book.rating}</h4>
+          <h3>{this.props.language.by} {book.authors}</h3>
+          <h3>{this.props.language.genre} {book.category}</h3>
+          <h4>{this.props.language.rating} {book.rating}</h4>
         </div>
         <div className="buttonContainer">
           <Link to={`/moredetails/${book.title}`}>
-          <button onClick={() => { this.handleButtonClick(book, false) }}><i className='fas fa-info-circle'></i>  More Details</button>
+            <button onClick={() => { this.handleButtonClick(book, false) }}><i className='fas fa-info-circle'></i>  {this.props.language.moreDetails}</button>
           </Link>
-          <button onClick={() => { this.handleButtonClick(book, true) }}><i className='fas fa-plus'></i>  Add to my bookshelf</button>
+          <button onClick={() => { this.handleButtonClick(book, true) }}><i className='fas fa-plus'></i>  {this.props.language.add}</button>
         </div>
       </div>
     );
@@ -201,8 +207,8 @@ class SearchResults extends Component {
   renderPaginationButtons = () => {
     return(
       <div>
-        <button onClick={this.handlePreviousPage}>Previous</button>
-        <button onClick={this.handleNextPage}>Next</button>
+        <button onClick={this.handlePreviousPage}>{this.props.language.previous}</button>
+        <button onClick={this.handleNextPage}>{this.props.language.next}</button>
       </div>
     )
   }
@@ -211,16 +217,17 @@ class SearchResults extends Component {
     const displayedResults = this.state.books.slice(this.state.startIndex, this.state.startIndex + 12);
     return (
       <div>
-
         <section className="searchResSection">
           {
-            displayedResults
+            !this.noResults
               ? displayedResults.map((book) => this.renderInformation(book))
               : this.renderNoResultMessage()
           }
         </section>
         {
-          this.renderPaginationButtons()
+          !this.noResults
+            ? this.renderPaginationButtons()
+            : null
         }
       </div>
     )

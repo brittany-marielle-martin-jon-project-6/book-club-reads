@@ -16,11 +16,13 @@ class App extends Component {
       language: english
     }
   }
+
   getLanguage = (language) => {
     this.setState({
       language: language
-    });
+    })
   }
+
   render() {
     return (
       <Router basename={process.env.PUBLIC_URL}>
@@ -30,15 +32,27 @@ class App extends Component {
             return(
               <LandingPage language={this.state.language}/>
             )
-          }} />
-          <Route path="/search/:search" component={SearchResults}/>
+          }}/>
+          <Route path="/search/:search" render={(props) => {
+            return(
+              <SearchResults {...props} language={this.state.language}/>
+            )
+          }}/>
           <Route exact path="/mybookshelf" render={() => {
             return(
-              <Bookshelf match language={this.state.language}/>
+              <Bookshelf language={this.state.language} />
+            )
+          }}/>
+          <Route path="/mybookshelf/:book" render={(props) => {
+            return(
+              <BookDetails {...props} language={this.state.language}/>
             )
           }} />
-          <Route path="/mybookshelf/:book" component={BookDetails} />
-          <Route path="/moredetails/:book" component={BookDetails}/>
+          <Route path="/moredetails/:book" render={(props) => {
+            return(
+              <BookDetails {...props} language={this.state.language} />
+            )
+          }}/>
           <Footer language={this.state.language}/>
         </div>
       </Router>

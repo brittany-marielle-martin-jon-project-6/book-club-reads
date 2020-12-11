@@ -163,9 +163,9 @@ class SearchResults extends Component {
         </div>
         <div className="buttonContainer">
           <Link to={`/moredetails/${book.title}`}>
-            <button onClick={() => { this.handleButtonClick(book, false) }}><i className='fas fa-info-circle'></i>  More Details</button>
+            <button  className="detailsBtn" onClick={() => { this.handleButtonClick(book, false) }}><i className='fas fa-info-circle'></i>  More Details</button>
           </Link>
-          <button onClick={() => { this.handleButtonClick(book, true) }}><i className='fas fa-plus'></i>  Add to my bookshelf</button>
+          <button className="addBtn" onClick={() => { this.handleButtonClick(book, true) }}><i className='fas fa-plus'></i>  Add to my bookshelf</button>
         </div>
       </div>
     );

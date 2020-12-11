@@ -58,6 +58,10 @@ h1 {
   width: 90%;
 }
 
+.wrapperContainer {
+  margin: 0 100px;
+}
+
 .searchButton {
   background-color: #1b2456;
   color: #fff;

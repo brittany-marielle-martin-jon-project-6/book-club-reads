@@ -3,7 +3,7 @@ import { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import SearchResults from './SearchResults';
 import LandingPage from './LandingPage';
-import HeaderNav from './headerNav';
+import HeaderNav from './HeaderNav';
 import Bookshelf from './Bookshelf';
 import BookDetails from './BookDetails';
 import Footer from './Footer';

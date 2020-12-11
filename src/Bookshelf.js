@@ -173,7 +173,7 @@ class Bookshelf extends Component {
     return(
       <section className="carousel">
         <div className="bookShelfDisplay">
-          <i className="fas fa-chevron-left" onClick={() => this.handleClick(-1)}></i>
+          <button className="chevronButton"><i className="fas fa-chevron-left" onClick={() => this.handleClick(-1)}></i></button>
           {
             displayArray.map((book, index) => {
               let className = '';
@@ -189,7 +189,7 @@ class Bookshelf extends Component {
               return this.displayBook(key, className, bookImageUrl, altText, bookTitle);
             })
           }
-          <i className="fas fa-chevron-right" onClick={() => this.handleClick(1)}></i>
+          <button className="chevronButton"><i className="fas fa-chevron-right" onClick={() => this.handleClick(1)}></i></button>
         </div>
         <button onClick={() => this.handleRemoveBook(firebaseIdOfDisplayedBook)} className='removeBook'>Remove</button>
       </section>

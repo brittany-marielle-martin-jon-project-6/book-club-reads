@@ -1,66 +1,80 @@
 .result-box {
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    padding: 15px;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-blend-mode: overlay;
-    background-color: rgba(0, 0, 0, 0.6);
-    justify-content: space-between;
-    height: 500px;
-    border-radius: 10px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-blend-mode: overlay;
+  background-color: rgba(0, 0, 0, 0.6);
+  justify-content: space-between;
+  height: 500px;
+  border-radius: 10px;
 }
 
 .result-box img {
-    align-self: center;
+  align-self: center;
 }
 
-
 .searchResSection {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
 }
 
 h2 {
-    margin: 10px 0;
-    text-transform: uppercase;
+  margin: 10px 0;
+  text-transform: uppercase;
 }
 
 .descriptionContainer {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }
 
-.buttonContainer{
-    display: flex;
-    justify-content: space-evenly;
-    flex-direction: column;
-    text-align: left;
-    align-items: center;
+.buttonContainer {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  text-align: left;
+  align-items: center;
 }
 
-.buttonContainer button {
-    background-color: #fff;
-    color: #1b2456;
-    width: 51%;
-    text-align: left;
-    margin-bottom: 15px;
-    padding: 10px 0;
-    border-radius: 10px;
-    border: 2px solid #1b2456;
-    text-transform: uppercase;
+.buttonContainer button,
+.paginationButtonContainer button {
+  background-color: #fff;
+  color: #1b2456;
+  width: 51%;
+  text-align: left;
+  margin-bottom: 15px;
+  padding: 10px 0;
+  border-radius: 10px;
+  border: 2px solid #1b2456;
+  text-transform: uppercase;
 }
 
 .buttonContainer button:hover,
-.buttonContainer button:focus {
-    background-color: #1b2456;
-    color: #fff;
+.buttonContainer button:focus,
+.paginationButtonContainer button:hover,
+.paginationButtonContainer button:focus {
+  background-color: #1b2456;
+  color: #fff;
 }
 
 .buttonContainer i {
-    padding-left: 5px;
+  padding-left: 5px;
+}
+
+.paginationButtonContainer {
+  display: flex;
+  width: 80%;
+  justify-content: center;
+  margin: 15px auto 0;
+}
+
+.paginationButtonContainer button {
+  width: 15%;
+  text-align: center;
+  margin: 20px 10px;
 }

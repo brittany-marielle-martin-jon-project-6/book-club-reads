@@ -7,20 +7,53 @@ import HeaderNav from './HeaderNav';
 import Bookshelf from './Bookshelf';
 import BookDetails from './BookDetails';
 import Footer from './Footer';
+import { english } from './languages';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      language: english
+    }
+  }
+
+  getLanguage = (language) => {
+    this.setState({
+      language: language
+    })
+  }
+
   render() {
     return (
       <Router basename={process.env.PUBLIC_URL}>
         <div className="App">
-          <HeaderNav />
-          <Route exact path="/" component={LandingPage} />
-          <Route exact path="/search/:search" component={SearchResults} />
-          {/* <Route path="/search/:search/:page" component={SearchResults}/> */}
-          <Route exact path="/mybookshelf" component={Bookshelf} />
-          <Route path="/mybookshelf/:book" component={BookDetails} />
-          <Route path="/moredetails/:book" component={BookDetails} />
-          <Footer />
+          <HeaderNav language={(language) => this.getLanguage(language)}/>
+          <Route exact path="/" render={() => {
+            return(
+              <LandingPage language={this.state.language}/>
+            )
+          }}/>
+          <Route path="/search/:search" render={(props) => {
+            return(
+              <SearchResults {...props} language={this.state.language}/>
+            )
+          }}/>
+          <Route exact path="/mybookshelf" render={() => {
+            return(
+              <Bookshelf language={this.state.language} />
+            )
+          }}/>
+          <Route path="/mybookshelf/:book" render={(props) => {
+            return(
+              <BookDetails {...props} language={this.state.language}/>
+            )
+          }} />
+          <Route path="/moredetails/:book" render={(props) => {
+            return(
+              <BookDetails {...props} language={this.state.language} />
+            )
+          }}/>
+          <Footer language={this.state.language}/>
         </div>
       </Router>
     );

@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { english, français } from './languages';
 
 class HeaderNav extends Component {
   constructor() {
@@ -8,13 +9,39 @@ class HeaderNav extends Component {
     this.newInput = false;
     this.state = {
       suggestions: [],
-      userInput: ''
+      userInput: '',
+      language: english
     }
   }
+
+  // LANGUAGE PLUGIN
+  toggleLanguage = (language) => {
+    this.props.language(language)
+    this.setState({
+      language: language
+    });
+  }
+  renderLanguageButtons = () => {
+    return (
+      <div className="languageContainer">
+        <button aria-label="choose english language" onClick={() => this.toggleLanguage(english)}>EN</button>
+        <button aria-label="choose french language" onClick={() => this.toggleLanguage(français)}>FR</button>
+      </div>
+    )
+  }
+
+  // LIFE CYCLE METHOD
   componentDidMount() {
     this.setState({
-      userInput: ''
-    })
+        userInput: ''
+      })
+  }
+  
+  componentDidUpdate() {
+    if (this.newInput) {
+      this.apiCall(this.state.userInput);
+      this.newInput = false;
+    }
   }
   apiCall = (input) => {
     axios({
@@ -39,12 +66,8 @@ class HeaderNav extends Component {
       console.log(error);
     })
   }
-  componentDidUpdate() {
-    if (this.newInput) {
-      this.apiCall(this.state.userInput);
-      this.newInput = false;
-    }
-  }
+
+  // Check for user's new character input for autosuggestion
   updateUserInput = (e) => {
     const userSearch = e.target.value;
     if (userSearch) {
@@ -58,12 +81,14 @@ class HeaderNav extends Component {
     e.preventDefault();
   }
 
+  // On submit button being clicked, remove user's input from state
   handleOnClickSubmit = () => {
     this.setState({
       userInput: ''
     })
   }
 
+  // On a suggestion being selected, remove user's input from state
   handleSuggestionDropDown = () => {
     this.setState({
       userInput: ''
@@ -74,8 +99,8 @@ class HeaderNav extends Component {
     return (
       <nav>
         <ul className="headerNav">
-          <li><Link to="/" className="navLinks">Browse</Link></li>
-          <li><Link to="/mybookshelf" className="navLinks">My Bookshelf</Link></li>
+          <li><Link to="/" className="navLinks">{this.state.language.browse}</Link></li>
+          <li><Link to="/mybookshelf" className="navLinks">{this.state.language.myBookshelf}</Link></li>
         </ul>
       </nav>
     )
@@ -88,7 +113,7 @@ class HeaderNav extends Component {
         </Link>
         <form onSubmit={(e) => this.handleSubmit(e)} onChange={(event) => this.getSuggestion(event)}>
           <label htmlFor="searchBook" className="srOnly">Search </label>
-          <input autoComplete="off" type='text' id='searchbook' name='searchbook' className='searchBook' placeholder='title, author, genre' value={this.state.userInput} onChange={this.updateUserInput}></input>
+          <input autoComplete="off" type='text' id='searchbook' name='searchbook' className='searchBook' placeholder={this.state.language.placeholder} value={this.state.userInput} onChange={this.updateUserInput}></input>
           <div className="suggestionContainer">
             {
               this.state.userInput
@@ -107,7 +132,6 @@ class HeaderNav extends Component {
   }
   renderSuggestion = (titleSuggestion, index) => {
     titleSuggestion = this.handleLongInfo(titleSuggestion, 25);
-
     return (
       <div key={index} className="individualSuggestion" >
         <Link className="dropDownLink" to={`/search/${titleSuggestion}`} onKeyPress={(e) => this.handleSuggestionDropDown(e)}>
@@ -122,6 +146,8 @@ class HeaderNav extends Component {
       userInput: suggestion
     })
   }
+
+  // Error handling function to check for and truncate long strings;
   handleLongInfo = (info, maxLength) => {
     if (info.length > maxLength) {
       if (info.charAt(maxLength - 1) !== ' ') {
@@ -149,6 +175,9 @@ class HeaderNav extends Component {
           }
           {
             this.renderNav()
+          }
+          {
+            this.renderLanguageButtons()
           }
         </div>
       </header>

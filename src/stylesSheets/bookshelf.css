@@ -5,15 +5,19 @@
   background-repeat: no-repeat;
   width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   background-color: #fff;
   padding: 50px 0;
   position: relative;
 }
 
+.gridBookshelf {
+  justify-content: space-evenly;
+}
+
 .carouselBookshelf {
   height: 80vh;
+  justify-content: space-between;
 }
 
 .carouselBookshelf i {

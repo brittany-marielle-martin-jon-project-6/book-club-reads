@@ -149,6 +149,13 @@ form {
   text-decoration: none;
 }
 
+.languageContainer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 10;
+}
+
 @media (max-width: 1067px) {
   h1 {
     font-size: 2rem;

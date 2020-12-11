@@ -14,7 +14,21 @@ class Bookshelf extends Component {
     }
   }
 
-  updateFirebase = () => {
+
+  componentDidMount() {
+    this.getFirebaseData();
+    this.addWindowEventListener();
+    this.setState({
+      windowInnerWidth: window.innerWidth
+    })
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.resizeWindow);
+    this.dbRef.off();
+  }
+
+  getFirebaseData = () => {
     this.dbRef.on('value', (data) => {
       const firebaseBookObj = data.val();
       const bookArray = [];
@@ -32,20 +46,28 @@ class Bookshelf extends Component {
     });
   }
 
-  addWindowEventListener = () => {
-    window.addEventListener('resize', () => {
-      this.setState({
-        windowInnerWidth: window.innerWidth
-      })
-    });
-  }
-
-  componentDidMount() {
-    this.updateFirebase();
-    this.addWindowEventListener();
+  resizeWindow = () => {
     this.setState({
       windowInnerWidth: window.innerWidth
     })
+  }
+
+  // Add event listener to window resizes
+  addWindowEventListener = () => {
+    this.resizeWindow();
+    window.addEventListener('resize', this.resizeWindow);
+  }
+
+  getNumOfBooksToDisplayOnCarousel = () => {
+    if (this.state.windowInnerWidth > 1250) {
+      return 9;
+    } else if (this.state.windowInnerWidth > 900) {
+      return 5;
+    } else if (this.state.windowInnerWidth > 800) {
+      return 3;
+    } else {
+      return 1;
+    }
   }
 
   handleRemoveBook = (bookId) => {
@@ -58,11 +80,8 @@ class Bookshelf extends Component {
     }
   }
 
-  componentWillUnmount() {
-    this.dbRef.off();
-  }
-
-  handleClick = (change) => {
+  // Function to move navigate bookshelf display
+  handleBookshelfNav = (change) => {
     let newIndex = this.state.indexOfDisplayedBook + change;
     newIndex = this.indexLoop(newIndex);
     this.setState({
@@ -95,6 +114,7 @@ class Bookshelf extends Component {
     )
   }
 
+  // Create link for each book
   createLink = (bookTitle, callbackHtml) => {
     return (
       <Link to={`/mybookshelf/${bookTitle}`}>
@@ -105,6 +125,7 @@ class Bookshelf extends Component {
     )
   }
 
+  // Toggle between grid and carousel display
   toggleDisplay = () => {
     this.setState({
       gridDisplay: !this.state.gridDisplay
@@ -117,7 +138,7 @@ class Bookshelf extends Component {
       <Fragment>
         <div className="dashboardContainer">
           <button className="gridDisplayButton" onClick={() => this.toggleDisplay()}><i className="fas fa-grip-horizontal"></i></button>
-          <h3>{`${this.completedCalculation()}% Reading Completed!`}</h3>
+          <h3>{`${this.completedCalculation()}% ${this.props.language.readingCompleted}!`}</h3>
         </div>
         {
           this.state.gridDisplay
@@ -129,6 +150,7 @@ class Bookshelf extends Component {
   }
 
   renderGridDisplay = () => {
+    const buttonText = this.props.language.remove;
     return (
       <section className="gridDisplay">
         <div className="bookShelfDisplay">
@@ -138,12 +160,13 @@ class Bookshelf extends Component {
               const altText = `Book cover for ${book[0].title}`;
               const key = book[2];
               const bookTitle = book[0].title;
+              
               return (
-                <div className="displayedBook">
+                <div key={key} className="displayedBook">
                   <Link to={`/mybookshelf/${bookTitle}`}>
                     <img src={bookImageUrl} alt={altText} />
                   </Link>
-                  <button onClick={() => this.handleRemoveBook(key)} className='removeBook'>Remove</button>
+                  <button onClick={() => this.handleRemoveBook(key)} className='removeBook'>{buttonText}</button>
                 </div>
               )
             })
@@ -173,10 +196,11 @@ class Bookshelf extends Component {
     }
     // Find the firebase ID of the displayed book; to be passed as a parameter into the handleRemoveBook function
     const firebaseIdOfDisplayedBook = this.state.savedBooks[this.state.indexOfDisplayedBook][2];
+    const buttonText = this.props.language.remove;
     return (
       <section className="carousel">
         <div className="bookShelfDisplay">
-          <button className="chevronButton" aria-label="display next books in bookshelf"><i className="fas fa-chevron-left" onClick={() => this.handleClick(-1)}></i></button>
+          <button className="chevronButton" aria-label="display next books in bookshelf"><i className="fas fa-chevron-left" onClick={() => this.handleBookshelfNav(-1)}></i></button>
           {
             displayArray.map((book, index) => {
               let className = '';
@@ -192,9 +216,12 @@ class Bookshelf extends Component {
               return this.displayBook(key, className, bookImageUrl, altText, bookTitle);
             })
           }
-          <button className="chevronButton" aria-label="display previous books in bookshelf"><i className="fas fa-chevron-right" onClick={() => this.handleClick(1)}></i></button>
+          {
+        
+          }
+          <button className="chevronButton" aria-label="display previous books in bookshelf"><i className="fas fa-chevron-right" onClick={() => this.handleBookshelfNav(1)}></i></button>
         </div>
-        <button onClick={() => this.handleRemoveBook(firebaseIdOfDisplayedBook)} className='removeBook'>Remove</button>
+        <button onClick={() => this.handleRemoveBook(firebaseIdOfDisplayedBook)} className='removeBook'>{buttonText}</button>
       </section>
     )
   }
@@ -216,19 +243,6 @@ class Bookshelf extends Component {
     completionPercentage = Math.ceil(completionPercentage);
     return completionPercentage;
   }
-
-  getNumOfBooksToDisplayOnCarousel = () => {
-    if (this.state.windowInnerWidth > 1250) {
-      return 9;
-    } else if (this.state.windowInnerWidth > 900) {
-      return 5;
-    } else if (this.state.windowInnerWidth > 800) {
-      return 3;
-    } else {
-      return 1;
-    }
-  }
-
 
   render() {
     let className;

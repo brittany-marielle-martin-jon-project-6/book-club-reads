@@ -19,10 +19,17 @@ class BookDetails extends Component {
     this.getDataFromFirebase();
   }
 
+  //Update firebase to match current state
+  componentDidUpdate() {
+    this.dbRef.child(this.state.firebaseIdOfDisplayedBook).update({ completed: this.state.completed });
+  }
+
+  // Turn off dbRef
   componentWillUnmount() {
     this.dbRef.off();
   }
 
+  // Get Date from firebase and save to states; check if the user has added a book to the bookshelf; if not, remove the temp book info from firebase
   getDataFromFirebase = () => {
     this.dbRef.on('value', (data) => {
       const firebaseDataObj = data.val();
@@ -48,6 +55,7 @@ class BookDetails extends Component {
     });
   }
 
+  // Remove book info from firebase and reset states
   handleRemoveBook = (bookId) => {
     this.dbRef.child(bookId).remove();
     this.setState({
@@ -56,6 +64,7 @@ class BookDetails extends Component {
     })
   }
 
+  // add books to firebase and set states
   handleAddBook = (bookObject) => {
     const bookAndCompleted = {
       book: bookObject,
@@ -68,11 +77,17 @@ class BookDetails extends Component {
     })
   }
 
+  handleCheckbox = () => {
+    this.setState({
+      completed: !this.state.completed
+    })
+  }
+
   renderButton = () => {
     return (
       this.state.removed || !this.state.saved
-        ? <button onClick={() => this.handleAddBook(this.state.bookToDisplay)} className='addBook'>Add to bookshelf</button>
-        : <button onClick={() => this.handleRemoveBook(this.state.firebaseIdOfDisplayedBook)} className='removeBook'>Remove book</button>
+        ? <button onClick={() => this.handleAddBook(this.state.bookToDisplay)} className='addBook'>{this.props.language.add}</button>
+        : <button onClick={() => this.handleRemoveBook(this.state.firebaseIdOfDisplayedBook)} className='removeBook'>{this.props.language.removeBook}</button>
     )
   }
 
@@ -81,7 +96,7 @@ class BookDetails extends Component {
       this.state.saved
         ? <div className="checkbox">
           <input checked={this.state.completed} onChange={() => this.handleCheckbox()} type="checkbox" name="completed" id="completed" />
-          <label htmlFor="completed">Finished Reading</label>
+          <label htmlFor="completed">{this.props.language.finishedReading}</label>
         </div>
         : null
     )
@@ -111,10 +126,10 @@ class BookDetails extends Component {
         <div className="description">
           <h2 className="bold">{book.title}</h2>
 
-          <h3>By: <span>{book.authors}</span>  | Genre: <span>{book.category}</span></h3>
+          <h3>{this.props.language.by} <span>{book.authors}</span>  | {this.props.language.genre} <span>{book.category}</span></h3>
           <h4><i className="fas fa-star"></i> : <span>{book.rating}</span></h4>
-          <h4>Published by: <span>{book.publisher}</span> on: <span>{book.publishedDate}</span></h4>
-          <h4 className="lastRow ">Page count:<span>{book.pageCount}</span> | Language: <span>{book.language}</span></h4>
+          <h4>{this.props.language.published} <span>{book.publisher}</span> - <span>{book.publishedDate}</span></h4>
+          <h4 className="lastRow ">{this.props.language.pageCount}:<span>{book.pageCount}</span> | {this.props.language.language} <span>{book.language}</span></h4>
           <h4><span>{book.description}</span></h4>
 
         </div>
@@ -126,16 +141,6 @@ class BookDetails extends Component {
         }
       </div>
     );
-  }
-
-  handleCheckbox = () => {
-    this.setState({
-      completed: !this.state.completed
-    })
-  }
-
-  componentDidUpdate() {
-    this.dbRef.child(this.state.firebaseIdOfDisplayedBook).update({ completed: this.state.completed });
   }
 
   render() {

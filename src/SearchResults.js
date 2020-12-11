@@ -159,7 +159,7 @@ class SearchResults extends Component {
   // Render relevant information on screen
   renderInformation = (book) => {
     return (
-      <div className="result-box" key={book.id} style={{"backgroundImage": `url(${book.bookImg})`}}>
+      <div className="resultBox" key={book.id} style={{"backgroundImage": `url(${book.bookImg})`}}>
         <img src={book.bookImg} alt={`Book cover for ${this.handleLongInfo(book.title, 40)}`} />
         <div className="descriptionContainer">
           <h2 className="title">{this.handleLongInfo(book.title, 50)}</h2>
@@ -206,7 +206,7 @@ class SearchResults extends Component {
 
   renderPaginationButtons = () => {
     return(
-      <div>
+      <div className="paginationButtonContainer">
         <button onClick={this.handlePreviousPage}>{this.props.language.previous}</button>
         <button onClick={this.handleNextPage}>{this.props.language.next}</button>
       </div>

@@ -24,6 +24,7 @@ class Bookshelf extends Component {
   }
 
   componentWillUnmount() {
+    window.removeEventListener('resize', this.resizeWindow);
     this.dbRef.off();
   }
 
@@ -45,16 +46,16 @@ class Bookshelf extends Component {
     });
   }
 
-  // Add event listener to window resizes
-  addWindowEventListener = () => {
+  resizeWindow = () => {
     this.setState({
       windowInnerWidth: window.innerWidth
     })
-    window.addEventListener('resize', () => {
-      this.setState({
-        windowInnerWidth: window.innerWidth
-      })
-    });
+  }
+
+  // Add event listener to window resizes
+  addWindowEventListener = () => {
+    this.resizeWindow();
+    window.addEventListener('resize', this.resizeWindow);
   }
 
   getNumOfBooksToDisplayOnCarousel = () => {

@@ -19,10 +19,17 @@ class BookDetails extends Component {
     this.getDataFromFirebase();
   }
 
+  //Update firebase to match current state
+  componentDidUpdate() {
+    this.dbRef.child(this.state.firebaseIdOfDisplayedBook).update({ completed: this.state.completed });
+  }
+
+  // Turn off dbRef
   componentWillUnmount() {
     this.dbRef.off();
   }
 
+  // Get Date from firebase and save to states; check if the user has added a book to the bookshelf; if not, remove the temp book info from firebase
   getDataFromFirebase = () => {
     this.dbRef.on('value', (data) => {
       const firebaseDataObj = data.val();
@@ -48,6 +55,7 @@ class BookDetails extends Component {
     });
   }
 
+  // Remove book info from firebase and reset states
   handleRemoveBook = (bookId) => {
     this.dbRef.child(bookId).remove();
     this.setState({
@@ -56,6 +64,7 @@ class BookDetails extends Component {
     })
   }
 
+  // add books to firebase and set states
   handleAddBook = (bookObject) => {
     const bookAndCompleted = {
       book: bookObject,
@@ -65,6 +74,12 @@ class BookDetails extends Component {
     this.dbRef.push(bookAndCompleted);
     this.setState({
       removed: false
+    })
+  }
+
+  handleCheckbox = () => {
+    this.setState({
+      completed: !this.state.completed
     })
   }
 
@@ -126,16 +141,6 @@ class BookDetails extends Component {
         }
       </div>
     );
-  }
-
-  handleCheckbox = () => {
-    this.setState({
-      completed: !this.state.completed
-    })
-  }
-
-  componentDidUpdate() {
-    this.dbRef.child(this.state.firebaseIdOfDisplayedBook).update({ completed: this.state.completed });
   }
 
   render() {

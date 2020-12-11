@@ -1,4 +1,4 @@
-.result-box {
+.resultBox {
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -12,7 +12,7 @@
   box-shadow: black 5px 5px 10px;
 }
 
-.result-box img {
+.resultBox img {
   align-self: center;
   box-shadow: black 5px 5px 10px;
 }
@@ -81,7 +81,7 @@ h2 {
 }
 
 .paginationButtonContainer button {
-  width: 15%;
+  width: 20%;
   text-align: center;
   margin: 20px 10px;
 }

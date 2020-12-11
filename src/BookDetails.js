@@ -81,7 +81,7 @@ class BookDetails extends Component {
       this.state.saved
         ? <div className="checkbox">
           <input checked={this.state.completed} onChange={() => this.handleCheckbox()} type="checkbox" name="completed" id="completed" />
-          <label htmlFor="completed">Finsihed Reading</label>
+          <label htmlFor="completed">Finished Reading</label>
         </div>
         : null
     )

@@ -1,6 +1,7 @@
-import { Component, Fragment } from 'react';
+import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { english, français } from './languages';
 
 class HeaderNav extends Component {
   constructor() {
@@ -8,7 +9,8 @@ class HeaderNav extends Component {
     this.newInput = false;
     this.state = {
       suggestions: [],
-      userInput: ''
+      userInput: '',
+      language: français
     }
   }
   apiCall = (input) => {
@@ -34,6 +36,7 @@ class HeaderNav extends Component {
       console.log(error);
     })
   }
+  
   componentDidUpdate() {
     if (this.newInput) {
       this.apiCall(this.state.userInput);
@@ -52,12 +55,21 @@ class HeaderNav extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
   }
+  handleLanguage = (language) => {
+    this.props.language(language);
+    this.setState({
+      language: language
+    });
+  }
+  getLanguage = () => {
+    return this.state.language.symbol;
+  }
   renderNav = () => {
     return (
       <nav>
         <ul className="headerNav">
-          <li><Link to="/" className="navLinks">Browse</Link></li>
-          <li><Link to="/mybookshelf" className="navLinks">My Bookshelf</Link></li>
+          <li><Link to={`/${this.getLanguage()}`} className="navLinks">{this.state.language.browse}</Link></li>
+          <li><Link to={`/mybookshelf/${this.getLanguage()}`} className="navLinks">{this.state.language.myBookshelf}</Link></li>
         </ul>
       </nav>
     )
@@ -65,12 +77,12 @@ class HeaderNav extends Component {
   renderForm = () => {
     return(
       <div className="titleFormContainer">
-        <Link to="/" className="logo">
+        <Link to={`/${this.getLanguage()}`} className="logo">
           <h1><i className="fas fa-book-open"></i>Book Club Reads<i className="fas fa-book-open"></i></h1>
         </Link>
         <form onSubmit={this.handleSubmit} onChange={(event) => this.getSuggestion(event)}>
           <label htmlFor="searchBook" className="srOnly">Search </label>
-          <input autoComplete="off" type='text' id='searchbook' name='searchbook' className='searchBook' placeholder='title, author, genre' value={this.state.userInput} onChange={this.updateUserInput}></input>
+          <input autoComplete="off" type='text' id='searchbook' name='searchbook' className='searchBook' placeholder={this.state.language.placeholder} value={this.state.userInput} onChange={this.updateUserInput}></input>
           <div className="suggestionContainer">
             {
               this.state.suggestions.map((suggestion, index) => {
@@ -78,10 +90,14 @@ class HeaderNav extends Component {
               })
             }
           </div>
-          <Link to={`/search/${this.state.userInput}`}>
+          <Link to={`/search/${this.state.userInput}/${this.getLanguage()}`}>
             <button className='searchButton'><i className="fas fa-search"></i></button>
           </Link>
         </form>
+        <div className="languageContainer">
+          <button onClick={() => this.handleLanguage(english)}>EN</button>
+          <button onClick={() => this.handleLanguage(français)}>FR</button>
+        </div>
       </div>
     )
   }

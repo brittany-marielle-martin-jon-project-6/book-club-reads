@@ -8,9 +8,10 @@ class Bookshelf extends Component {
     this.dbRef = firebase.database().ref();
     this.state = {
       savedBooks: [],
-      windowInnerWidth: 1280,
+      windowInnerWidth: 1000,
       indexOfDisplayedBook: 0,
-      gridDisplay: false
+      gridDisplay: false,
+      // language: this.props.match.params.language
     }
   }
 
@@ -33,6 +34,9 @@ class Bookshelf extends Component {
   }
 
   addWindowEventListener = () => {
+    this.setState({
+      windowInnerWidth: window.innerWidth
+    })
     window.addEventListener('resize', () => {
       this.setState({
         windowInnerWidth: window.innerWidth
@@ -137,7 +141,7 @@ class Bookshelf extends Component {
                   <Link to={`/mybookshelf/${bookTitle}`}>
                     <img src={bookImageUrl} alt={altText} />
                   </Link>
-                  <button onClick={() => this.handleRemoveBook(key)} className='removeBook'>Remove</button>
+                  <button onClick={() => this.handleRemoveBook(key)} className='removeBook'>Remove {this.state.language.remove}</button>
                 </div>
               )
             })

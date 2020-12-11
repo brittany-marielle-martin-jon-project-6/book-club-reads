@@ -4,7 +4,7 @@ class Footer extends Component {
     render() {
         return(
             <footer>
-                <p><a href="www.junocollege.com">Juno College of Technology &copy;2020</a></p>
+                <p><a href="www.junocollege.com">{this.props.language.juno}&copy;2020</a></p>
             </footer>
         )
     }

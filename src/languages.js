@@ -43,7 +43,7 @@ const français = {
     moreDetails: "Plus de détails",
     next: "Page suivante",
     previous: "Page précédente",
-    juno: "Juno L'École de Techologie"
+    juno: "Juno L'École de Technologie"
 }
 
 export { english, français };

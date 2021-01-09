@@ -71,12 +71,14 @@ class SearchResults extends Component {
     this.apiCall(this.props.match.params.search);
   }
 
+  // Check if a new search is entered; if so, clear global book array and make new API call
   componentDidUpdate() {
     if (this.newSearch !== this.props.match.params.search) {
       this.newSearch = this.props.match.params.search;
       this.books = [];
       this.apiCall(this.newSearch);
     }
+    // Keep track of the global book array size and only make API calls when the search index exceeds the size of the global array
     if (this.state.next && this.state.startIndex > this.maxStartIndexOfDisplayedResults) {
       if (this.state.startIndex > this.maxStartIndexOfDisplayedResults) {
         this.maxStartIndexOfDisplayedResults = this.state.startIndex;
@@ -88,6 +90,7 @@ class SearchResults extends Component {
     }
   }
 
+  // push book data to firebase with 'saved' property being true to add to bookshelf
   handleButtonClick = (bookObject, saved) => {
     const bookAndCompleted = {
       book: bookObject,

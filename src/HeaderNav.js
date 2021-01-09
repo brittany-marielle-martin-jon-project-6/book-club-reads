@@ -25,7 +25,8 @@ class HeaderNav extends Component {
     return (
       <div className="languageContainer">
         <button aria-label="choose english language" onClick={() => this.toggleLanguage(english)}>EN</button>
-        <button aria-label="choose french language" onClick={() => this.toggleLanguage(français)}>FR</button>
+
+        <button aria-label="choisir la langue française" onClick={() => this.toggleLanguage(français)}>FR</button>
       </div>
     )
   }

@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import { english, français } from './languages';
 
 class Footer extends Component {
     render() {

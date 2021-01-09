@@ -86,7 +86,9 @@ class BookDetails extends Component {
   renderButton = () => {
     return (
       this.state.removed || !this.state.saved
+      
         ? <button onClick={() => this.handleAddBook(this.state.bookToDisplay)} className='addBook'>{this.props.language.add}</button>
+
         : <button onClick={() => this.handleRemoveBook(this.state.firebaseIdOfDisplayedBook)} className='removeBook'>{this.props.language.removeBook}</button>
     )
   }
@@ -127,11 +129,14 @@ class BookDetails extends Component {
           <h2 className="bold">{book.title}</h2>
 
           <h3>{this.props.language.by} <span>{book.authors}</span>  | {this.props.language.genre} <span>{book.category}</span></h3>
-          <h4><i className="fas fa-star"></i> : <span>{book.rating}</span></h4>
-          <h4>{this.props.language.published} <span>{book.publisher}</span> - <span>{book.publishedDate}</span></h4>
-          <h4 className="lastRow ">{this.props.language.pageCount}:<span>{book.pageCount}</span> | {this.props.language.language} <span>{book.language}</span></h4>
-          <h4><span>{book.description}</span></h4>
 
+          <h4><i className="fas fa-star"></i> : <span>{book.rating}</span></h4>
+
+          <h4>{this.props.language.published} <span>{book.publisher}</span> - <span>{book.publishedDate}</span></h4>
+
+          <h4 className="lastRow ">{this.props.language.pageCount}:<span>{book.pageCount}</span> | {this.props.language.language} <span>{book.language}</span></h4>
+
+          <h4><span>{book.description}</span></h4>
         </div>
         {
           this.renderButton()

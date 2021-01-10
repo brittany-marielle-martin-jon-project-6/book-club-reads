@@ -5,6 +5,7 @@ import firebase from './firebase.js';
 import { Link } from 'react-router-dom';
 
 class SearchResults extends Component {
+  // LIFE CYCLE METHODS ------------------------------------------------------------------------------------------------------------------------ //
   constructor() {
     super();
     this.noResults = false;
@@ -20,6 +21,41 @@ class SearchResults extends Component {
     }
   }
 
+  /**
+   * Get new search information from component props and bind it to a component global variable
+   * Make API call based on the search information
+   */
+  componentDidMount() {
+    this.newSearch = this.props.match.params.search;
+    this.apiCall(this.props.match.params.search);
+  }
+
+  /**
+   * Check if a new search is entered; if so, clear global book array and make new API call
+   */
+  componentDidUpdate() {
+    if (this.newSearch !== this.props.match.params.search) {
+      this.newSearch = this.props.match.params.search;
+      this.books = [];
+      this.apiCall(this.newSearch);
+    }
+    // Keep track of the global book array size and only make API calls when the search index exceeds the size of the global array
+    if (this.state.next && this.state.startIndex > this.maxStartIndexOfDisplayedResults) {
+      if (this.state.startIndex > this.maxStartIndexOfDisplayedResults) {
+        this.maxStartIndexOfDisplayedResults = this.state.startIndex;
+      }
+      this.apiCall(this.newSearch);
+      this.setState({
+        next: false
+      })
+    }
+  }
+
+  // EVENT HANDLING METHODS --------------------------------------------------------------------------------------------------------------------- //
+  /**
+   * Make API call and return 12 results based on user's submitted input in the search field
+   * @param {string} input The user's submitted search input
+   */
   apiCall = (input) => {
     this.noResults = false;
     axios({
@@ -49,48 +85,32 @@ class SearchResults extends Component {
     })
   }
 
+  /**
+   * Cache the relevant information from the API book object
+   * @param {Object} book The book object returned from the API call
+   */
   createBookObj = (book) => {
-      const bookObj = {};
-      bookObj.id = book.id;
-      bookObj.title = this.handleMissingInfoError(book.volumeInfo.title, 'Unknown title');
-      bookObj.authors = this.handleMissingInfoError(book.volumeInfo.authors, 'Unknown author');
-      bookObj.category = this.handleMissingInfoError(book.volumeInfo.categories, 'Unknown genre');
-      bookObj.rating = this.handleMissingInfoError(book.volumeInfo.averageRating, 'No rating');
-      bookObj.bookImg = this.handleMissingCoverImage(book.volumeInfo); // add stock no image available 
-      bookObj.pageCount = this.handleMissingInfoError(book.volumeInfo.pageCount, 'Unknown page count');
-      bookObj.publisher = this.handleMissingInfoError(book.volumeInfo.publisher, 'Unknown publisher');
-      bookObj.language = this.handleMissingInfoError(book.volumeInfo.language, 'Unknown language');
-      bookObj.description = this.handleMissingInfoError(book.volumeInfo.description, 'No description');
-      bookObj.publishedDate = this.handleMissingInfoError(book.volumeInfo.publishedDate, 'Unknown published date');
-      bookObj.searchInput = this.newSearch;
-      return bookObj;
+    const bookObj = {};
+    bookObj.id = book.id;
+    bookObj.title = this.handleMissingInfoError(book.volumeInfo.title, 'Unknown title');
+    bookObj.authors = this.handleMissingInfoError(book.volumeInfo.authors, 'Unknown author');
+    bookObj.category = this.handleMissingInfoError(book.volumeInfo.categories, 'Unknown genre');
+    bookObj.rating = this.handleMissingInfoError(book.volumeInfo.averageRating, 'No rating');
+    bookObj.bookImg = this.handleMissingCoverImage(book.volumeInfo); // add stock no image available 
+    bookObj.pageCount = this.handleMissingInfoError(book.volumeInfo.pageCount, 'Unknown page count');
+    bookObj.publisher = this.handleMissingInfoError(book.volumeInfo.publisher, 'Unknown publisher');
+    bookObj.language = this.handleMissingInfoError(book.volumeInfo.language, 'Unknown language');
+    bookObj.description = this.handleMissingInfoError(book.volumeInfo.description, 'No description');
+    bookObj.publishedDate = this.handleMissingInfoError(book.volumeInfo.publishedDate, 'Unknown published date');
+    bookObj.searchInput = this.newSearch;
+    return bookObj;
   }
 
-  componentDidMount() {
-    this.newSearch = this.props.match.params.search;
-    this.apiCall(this.props.match.params.search);
-  }
-
-  // Check if a new search is entered; if so, clear global book array and make new API call
-  componentDidUpdate() {
-    if (this.newSearch !== this.props.match.params.search) {
-      this.newSearch = this.props.match.params.search;
-      this.books = [];
-      this.apiCall(this.newSearch);
-    }
-    // Keep track of the global book array size and only make API calls when the search index exceeds the size of the global array
-    if (this.state.next && this.state.startIndex > this.maxStartIndexOfDisplayedResults) {
-      if (this.state.startIndex > this.maxStartIndexOfDisplayedResults) {
-        this.maxStartIndexOfDisplayedResults = this.state.startIndex;
-      }
-      this.apiCall(this.newSearch);
-      this.setState({
-        next: false
-      })
-    }
-  }
-
-  // push book data to firebase with 'saved' property being true to add to bookshelf
+  /**
+   * Push book data to Firebase
+   * @param {Object} bookObject The created book object for each of the books returned from API call
+   * @param {boolean} saved A boolean value to show whether or not a book has been saved to the bookshelf by the user
+   */
   handleButtonClick = (bookObject, saved) => {
     const bookAndCompleted = {
       book: bookObject,
@@ -100,7 +120,11 @@ class SearchResults extends Component {
     this.dbRef.push(bookAndCompleted);
   }
 
-  // Function to check if an info is missing. If so, display the corresponding message
+  /**
+   * Check if a piece of information is missing then display a customized message for it
+   * @param {Object} info An object containing the information returned by API call
+   * @param {string} message Customized error message depending on the missing information
+   */
   handleMissingInfoError = (info, message) => {
     let checkedInfo;
     if (info) {
@@ -110,7 +134,11 @@ class SearchResults extends Component {
     }
     return checkedInfo;
   }
-  // In case of multiple pieces of information, separate each with a comma, and add the word 'and' before the last one
+
+  /**
+   * Separate multiple pieces of information with a coma and add the word 'and' before the last one; Oxford coma convention is observed
+   * @param {Object} info An object containing the information to be parsed
+   */
   parseBookInfo = (info) => {
     if (typeof info === 'object') {
       if (info.length === 1) {
@@ -132,7 +160,11 @@ class SearchResults extends Component {
       return info;
     }
   }
-  // If the cover image is missing, display no-cover image
+
+  /**
+   * Check if the image link exists; if not, display the no-cover image
+   * @param {Object} info An object containing the information about the cover image of a particular book
+   */
   handleMissingCoverImage = (info) => {
     if (info.imageLinks) {
       return info.imageLinks.thumbnail;
@@ -140,6 +172,12 @@ class SearchResults extends Component {
       return noCover;
     }
   }
+
+  /**
+   * Truncate long pieces of information based on specified maximum length; ellipses are placed only after complete words
+   * @param {string} info The relevant information to be checked for truncation
+   * @param {integer} maxLength The maximum number of characters allowable for a particular piece of information; if the maxLength happens in the middle of a word, the ellipsis will be placed after the next blank space, or not at all if it is the end of the string
+   */
   handleLongInfo = (info, maxLength) => {
     if (info.length > maxLength) {
       if (info.charAt(maxLength - 1) !== ' ') {
@@ -159,7 +197,37 @@ class SearchResults extends Component {
     return info;
   }
 
-  // Render relevant information on screen
+  /**
+   * Move to the next search result page
+   */
+  handleNextPage = () => {
+    let newStartIndex = this.state.startIndex + 12;
+    this.setState({
+      startIndex: newStartIndex,
+      next: true,
+      pageNumber: this.state.pageNumber + 1
+    })
+  }
+
+  /**
+   * Move to the previous search result page
+   */
+  handlePreviousPage = () => {
+    let newStartIndex = this.state.startIndex - 12;
+    if (newStartIndex < 0) {
+      newStartIndex = 0;
+    }
+    this.setState({
+      startIndex: newStartIndex,
+      pageNumber: this.state.pageNumber - 1
+    })
+  }
+
+  // RENDER METHODS ------------------------------------------------------------------------------------------------------------------------------------ //
+  /**
+   * Render each individual book on the screen
+   * @param {Object} book The created book object based on the information returned by API call
+   */
   renderInformation = (book) => {
     return (
       <div className="resultBox" key={book.id} style={{"backgroundImage": `url(${book.bookImg})`}}>
@@ -180,33 +248,18 @@ class SearchResults extends Component {
     );
   }
 
-  // In case API call returns no results, render the following error message
+  /**
+   * Render no result message if API call returns no results
+   */
   renderNoResultMessage = () => {
     return (
       <h2>No Results Found :(</h2>
     )
   }
 
-  handleNextPage = () => {
-    let newStartIndex = this.state.startIndex + 12;
-    this.setState({
-      startIndex: newStartIndex,
-      next: true,
-      pageNumber: this.state.pageNumber + 1
-    })
-  }
-
-  handlePreviousPage = () => {
-    let newStartIndex = this.state.startIndex - 12;
-    if (newStartIndex < 0) {
-      newStartIndex = 0;
-    }
-    this.setState({
-      startIndex: newStartIndex,
-      pageNumber: this.state.pageNumber - 1
-    })
-  }
-
+  /**
+   * Render the previous and next page buttons
+   */
   renderPaginationButtons = () => {
     return(
       <div className="paginationButtonContainer">
@@ -216,6 +269,7 @@ class SearchResults extends Component {
     )
   }
 
+  // MAIN RENDER METHOD -------------------------------------------------------------------------------------------------------------------------------- //
   render() {
     const displayedResults = this.state.books.slice(this.state.startIndex, this.state.startIndex + 12);
     return (

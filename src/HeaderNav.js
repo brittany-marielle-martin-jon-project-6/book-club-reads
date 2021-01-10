@@ -4,6 +4,7 @@ import axios from 'axios';
 import { english, français } from './languages';
 
 class HeaderNav extends Component {
+  // LIFE CYCLE METHOD ---------------------------------------------------------------------------------------------------------------------- //
   constructor() {
     super();
     this.newInput = false;
@@ -14,36 +15,30 @@ class HeaderNav extends Component {
     }
   }
 
-  // LANGUAGE PLUGIN
-  toggleLanguage = (language) => {
-    this.props.language(language)
-    this.setState({
-      language: language
-    });
-  }
-  renderLanguageButtons = () => {
-    return (
-      <div className="languageContainer">
-        <button aria-label="choose english language" onClick={() => this.toggleLanguage(english)}>EN</button>
-
-        <button aria-label="choisir la langue française" onClick={() => this.toggleLanguage(français)}>FR</button>
-      </div>
-    )
-  }
-
-  // LIFE CYCLE METHOD
+  /**
+   * Set class component state userInput to empty when the component first mounted
+   */
   componentDidMount() {
     this.setState({
         userInput: ''
       })
   }
   
+  /**
+   * Make new API call if there is a new input from the user for autosuggestions
+   */
   componentDidUpdate() {
     if (this.newInput) {
       this.apiCall(this.state.userInput);
       this.newInput = false;
     }
   }
+
+  // EVENT HANDLING METHODS -------------------------------------------------------------------------------------------------------------------- //
+  /**
+   * Make API calls and return 5 suggestions depending on user's input in the search field
+   * @param {string} input The user's input in the the search field
+   */
   apiCall = (input) => {
     axios({
       url: 'https://www.googleapis.com/books/v1/volumes',
@@ -68,9 +63,12 @@ class HeaderNav extends Component {
     })
   }
 
-  // Check for user's new character input for autosuggestion
-  updateUserInput = (e) => {
-    const userSearch = e.target.value;
+  /**
+   * Check for user's new character input for autosuggestion
+   * @param {Event} event The event from onChange event listener
+   */
+  updateUserInput = (event) => {
+    const userSearch = event.target.value;
     if (userSearch) {
       this.newInput = true;
     }
@@ -78,24 +76,72 @@ class HeaderNav extends Component {
       userInput: userSearch
     })
   }
-  handleSubmit = (e) => {
-    e.preventDefault();
+
+  /**
+   * Prevent the form submission event from refreshing the page
+   * @param {Event} event The form submission event
+   */
+  handleSubmit = (event) => {
+    event.preventDefault();
   }
 
-  // On submit button being clicked, remove user's input from state
+  /**
+   * Remove user's input from state when form submits
+   */ 
   handleOnClickSubmit = () => {
     this.setState({
       userInput: ''
     })
   }
 
-  // On a suggestion being selected, remove user's input from state
+  /**
+   * Remove user's input from state when a dropdown suggestion is selected
+   */
   handleSuggestionDropDown = () => {
     this.setState({
       userInput: ''
     })
   }
 
+  /**
+   * Get the suggestions from API call depending on the user's newest input
+   * @param {Event} event The event from the onChange event listener
+   */
+  getSuggestion = (event) => {
+    const suggestion = event.target.value;
+    this.setState({
+      userInput: suggestion
+    })
+  }
+
+  /**
+   * Truncate long pieces of information based on specified maximum length; ellipses are placed only after complete words
+   * @param {string} info The relevant information to be checked for truncation
+   * @param {integer} maxLength The maximum number of characters allowable for a particular piece of information; if the maxLength happens in the middle of a word, the ellipsis will be placed after the next blank space, or not at all if it is the end of the string
+   */
+  handleLongInfo = (info, maxLength) => {
+    if (info.length > maxLength) {
+      if (info.charAt(maxLength - 1) !== ' ') {
+        const omittedInfo = info.slice(maxLength, info.length);
+        let positionOfNextSpace = omittedInfo.search(' ');
+        if (positionOfNextSpace < 0) {
+          const numOfCharsToEndOfString = info.length - maxLength;
+          if (numOfCharsToEndOfString < 10) {
+            positionOfNextSpace = numOfCharsToEndOfString;
+          }
+        }
+        maxLength += positionOfNextSpace;
+      }
+      info = info.slice(0, maxLength);
+      info += ' ...';
+    }
+    return info;
+  }
+
+  // RENDER METHODS ------------------------------------------------------------------------------------------------------------------------------ //
+  /**
+   * Render the navigation options and attach corresponding links to them
+   */
   renderNav = () => {
     return (
       <nav>
@@ -106,6 +152,10 @@ class HeaderNav extends Component {
       </nav>
     )
   }
+
+  /**
+   * Render the search field
+   */
   renderForm = () => {
     return (
       <div className="titleFormContainer">
@@ -131,6 +181,12 @@ class HeaderNav extends Component {
       </div>
     )
   }
+
+  /**
+   * Render the dropdown autosuggestion field with the information gathered from API call
+   * @param {string} titleSuggestion The title of the suggested book from API call
+   * @param {integer} index The indexed position of the suggestion in the class component state; used to set the React 'key' property for the component
+   */
   renderSuggestion = (titleSuggestion, index) => {
     titleSuggestion = this.handleLongInfo(titleSuggestion, 25);
     return (
@@ -141,32 +197,33 @@ class HeaderNav extends Component {
       </div>
     )
   }
-  getSuggestion = (event) => {
-    const suggestion = event.target.value;
+
+  // LANGUAGE MODULE ------------------------------------------------------------------------------------------------------------------------------ //
+  /**
+   * Toggle the language on display
+   * @param {Object} language The language object imported from language.js component
+   */
+  toggleLanguage = (language) => {
+    this.props.language(language)
     this.setState({
-      userInput: suggestion
-    })
+      language: language
+    });
   }
 
-  // Error handling function to check for and truncate long strings;
-  handleLongInfo = (info, maxLength) => {
-    if (info.length > maxLength) {
-      if (info.charAt(maxLength - 1) !== ' ') {
-        const omittedInfo = info.slice(maxLength, info.length);
-        let positionOfNextSpace = omittedInfo.search(' ');
-        if (positionOfNextSpace < 0) {
-          const numOfCharsToEndOfString = info.length - maxLength;
-          if (numOfCharsToEndOfString < 10) {
-            positionOfNextSpace = numOfCharsToEndOfString;
-          }
-        }
-        maxLength += positionOfNextSpace;
-      }
-      info = info.slice(0, maxLength);
-      info += ' ...';
-    }
-    return info;
+  /**
+   * Render the language selection buttons and attach corresponding event handlers
+   */
+  renderLanguageButtons = () => {
+    return (
+      <div className="languageContainer">
+        <button aria-label="choose english language" onClick={() => this.toggleLanguage(english)}>EN</button>
+
+        <button aria-label="choisir la langue française" onClick={() => this.toggleLanguage(français)}>FR</button>
+      </div>
+    )
   }
+
+  // MAIN RENDER METHOD ---------------------------------------------------------------------------------------------------------------------------- //
   render() {
     return (
       <header>

@@ -93,6 +93,7 @@
 .gridDisplayButton i {
   font-size: 3rem;
   cursor: pointer;
+  padding: 0;
 }
 
 .fa-sort {

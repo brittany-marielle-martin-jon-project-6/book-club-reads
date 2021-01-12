@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/book-club-reads/static/css/main.f4c1490a.chunk.css",
-    "main.js": "/book-club-reads/static/js/main.b816eb21.chunk.js",
-    "main.js.map": "/book-club-reads/static/js/main.b816eb21.chunk.js.map",
+    "main.css": "/book-club-reads/static/css/main.fdcbbb66.chunk.css",
+    "main.js": "/book-club-reads/static/js/main.8704233b.chunk.js",
+    "main.js.map": "/book-club-reads/static/js/main.8704233b.chunk.js.map",
     "runtime-main.js": "/book-club-reads/static/js/runtime-main.a149d90a.js",
     "runtime-main.js.map": "/book-club-reads/static/js/runtime-main.a149d90a.js.map",
     "static/js/2.fbc7a7f9.chunk.js": "/book-club-reads/static/js/2.fbc7a7f9.chunk.js",
@@ -10,7 +10,7 @@
     "static/js/3.a0d5611f.chunk.js": "/book-club-reads/static/js/3.a0d5611f.chunk.js",
     "static/js/3.a0d5611f.chunk.js.map": "/book-club-reads/static/js/3.a0d5611f.chunk.js.map",
     "index.html": "/book-club-reads/index.html",
-    "static/css/main.f4c1490a.chunk.css.map": "/book-club-reads/static/css/main.f4c1490a.chunk.css.map",
+    "static/css/main.fdcbbb66.chunk.css.map": "/book-club-reads/static/css/main.fdcbbb66.chunk.css.map",
     "static/js/2.fbc7a7f9.chunk.js.LICENSE.txt": "/book-club-reads/static/js/2.fbc7a7f9.chunk.js.LICENSE.txt",
     "static/media/noCover.fea3d7c6.jpg": "/book-club-reads/static/media/noCover.fea3d7c6.jpg",
     "static/media/App.css": "/book-club-reads/static/media/robert-anasch-McX3XuJRsUM-unsplash.8bdbbee0.jpg"
@@ -18,7 +18,7 @@
   "entrypoints": [
     "static/js/runtime-main.a149d90a.js",
     "static/js/2.fbc7a7f9.chunk.js",
-    "static/css/main.f4c1490a.chunk.css",
-    "static/js/main.b816eb21.chunk.js"
+    "static/css/main.fdcbbb66.chunk.css",
+    "static/js/main.8704233b.chunk.js"
   ]
 }

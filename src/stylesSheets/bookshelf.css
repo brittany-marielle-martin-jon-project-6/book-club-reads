@@ -1,8 +1,8 @@
 .carouselBookshelf,
 .gridBookshelf {
   background-image: url("../assets/robert-anasch-McX3XuJRsUM-unsplash-blackandwhite.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-size: contain;
+  background-repeat: repeat;
   width: 100%;
   display: flex;
   align-items: center;

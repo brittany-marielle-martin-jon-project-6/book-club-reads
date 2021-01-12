@@ -4,7 +4,7 @@ import axios from 'axios';
 import { english, français } from './languages';
 
 class HeaderNav extends Component {
-  // LIFE CYCLE METHOD ---------------------------------------------------------------------------------------------------------------------- //
+  // LIFE CYCLE METHOD ------------------------------------------------------------------------------------------------------------------------- //
   constructor() {
     super();
     this.newInput = false;
@@ -154,7 +154,7 @@ class HeaderNav extends Component {
   }
 
   /**
-   * Render the search field
+   * Render the title and the search field
    */
   renderForm = () => {
     return (

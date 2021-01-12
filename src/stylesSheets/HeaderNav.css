@@ -151,9 +151,32 @@ form {
 
 .languageContainer {
   position: fixed;
-  top: 0;
-  right: 0;
+  top: 5px;
+  right: 5px;
   z-index: 10;
+}
+
+.languageContainer button {
+  border: none;
+  background-color: transparent;
+  font-size: 2rem;
+  color: #1b2456;
+  cursor: pointer;
+}
+
+.languageContainer button:hover,
+.languageContainer button:focus {
+  background-color: #1b2456;
+  color: whitesmoke;
+}
+
+.languageContainer button:first-child {
+  border-right: 2px solid black;
+  padding: 5px;
+}
+
+.languageContainer button:last-child {
+  padding: 5px;
 }
 
 @media (max-width: 1067px) {

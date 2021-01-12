@@ -33,6 +33,10 @@
   align-items: center;
 }
 
+.gridDisplay {
+  padding-top: 15px;
+}
+
 .gridDisplay,
 .gridDisplay .bookShelfDisplay {
   display: flex;
@@ -44,7 +48,6 @@
 .gridDisplay .bookShelfDisplay {
   flex-flow: row wrap;
   justify-content: center;
-  gap: 10px;
 }
 
 .gridDisplay .displayedBook {
@@ -55,6 +58,7 @@
   background-color: rgba(245, 245, 245, 0.714);
   border-radius: 10px;
   padding: 10px;
+  margin: 10px;
 }
 
 .gridDisplay .displayedBook img {
@@ -67,21 +71,32 @@
   position: absolute;
   top: 0;
   right: 0;
-  height: 30px;
+  height: 60px;
   width: 100%;
   justify-content: space-between;
+  align-items: center;
   padding-right: 25px;
   background-color: white;
 }
 
 .gridDisplayButton {
   width: 60px;
+  height: 60px;
   border: none;
   background-color: rgba(0, 0, 0, 0);
 }
 
+.gridDisplayButton:focus {
+  border: none;
+}
+
 .gridDisplayButton i {
   font-size: 3rem;
+  cursor: pointer;
+}
+
+.fa-sort {
+  transform: rotate(90deg);
 }
 
 .carousel .bookShelfDisplay {

@@ -147,7 +147,13 @@ class Bookshelf extends Component {
     return (
       <Fragment>
         <div className="dashboardContainer">
-          <button className="gridDisplayButton" onClick={() => this.toggleDisplay()}><i className="fas fa-grip-horizontal"></i></button>
+          <button className="gridDisplayButton" onClick={() => this.toggleDisplay()}>
+            {
+              this.state.gridDisplay
+                ? <i className="fas fa-grip-horizontal"></i>
+                : <i className="fas fa-sort"></i>
+            }   
+          </button>
           <h3>{`${this.completedCalculation()}% ${this.props.language.readingCompleted}!`}</h3>
         </div>
         {

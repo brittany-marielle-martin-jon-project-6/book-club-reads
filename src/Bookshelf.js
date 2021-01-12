@@ -150,8 +150,8 @@ class Bookshelf extends Component {
           <button className="gridDisplayButton" onClick={() => this.toggleDisplay()}>
             {
               this.state.gridDisplay
-                ? <i className="fas fa-grip-horizontal"></i>
-                : <i className="fas fa-sort"></i>
+                ? <i className="fas fa-sort"></i>
+                : <i className="fas fa-grip-horizontal"></i>
             }   
           </button>
           <h3>{`${this.completedCalculation()}% ${this.props.language.readingCompleted}!`}</h3>
